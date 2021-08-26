@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C32358226D76E1800BE905E /* Halpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358126D76E1800BE905E /* Halpers.swift */; };
+		3C32358426D7C19D00BE905E /* icon_Sort.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3C32358326D7C19D00BE905E /* icon_Sort.svg */; };
 		3C87B38726D7042C00DB5C0F /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37826D7042C00DB5C0F /* Constraints.swift */; };
 		3C87B38826D7042C00DB5C0F /* UIButton+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */; };
 		3C87B38A26D7042C00DB5C0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B37C26D7042C00DB5C0F /* Assets.xcassets */; };
@@ -21,6 +22,7 @@
 
 /* Begin PBXFileReference section */
 		3C32358126D76E1800BE905E /* Halpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Halpers.swift; sourceTree = "<group>"; };
+		3C32358326D7C19D00BE905E /* icon_Sort.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icon_Sort.svg; sourceTree = "<group>"; };
 		3C87B37826D7042C00DB5C0F /* Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+extension.swift"; sourceTree = "<group>"; };
 		3C87B37C26D7042C00DB5C0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -49,10 +51,10 @@
 			isa = PBXGroup;
 			children = (
 				3C87B39426D7048100DB5C0F /* Info.plist */,
+				3C87B38426D7042C00DB5C0F /* Controllers */,
 				3C87B37726D7042C00DB5C0F /* Halpers */,
 				3C87B37B26D7042C00DB5C0F /* System */,
 				3C87B38126D7042C00DB5C0F /* Fonts */,
-				3C87B38426D7042C00DB5C0F /* Controllers */,
 			);
 			path = RSTask10_GameCounter;
 			sourceTree = "<group>";
@@ -81,6 +83,7 @@
 		3C87B38126D7042C00DB5C0F /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
+				3C32358326D7C19D00BE905E /* icon_Sort.svg */,
 				3C87B38226D7042C00DB5C0F /* Nunito-ExtraBold.ttf */,
 				3C87B38326D7042C00DB5C0F /* Nunito-SemiBold.ttf */,
 			);
@@ -169,6 +172,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C87B38F26D7042C00DB5C0F /* Nunito-SemiBold.ttf in Resources */,
+				3C32358426D7C19D00BE905E /* icon_Sort.svg in Resources */,
 				3C87B38A26D7042C00DB5C0F /* Assets.xcassets in Resources */,
 				3C87B38E26D7042C00DB5C0F /* Nunito-ExtraBold.ttf in Resources */,
 				3C87B38B26D7042C00DB5C0F /* LaunchScreen.storyboard in Resources */,
