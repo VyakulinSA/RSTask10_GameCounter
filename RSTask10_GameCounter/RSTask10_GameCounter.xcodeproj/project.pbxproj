@@ -7,9 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C32358226D76E1800BE905E /* Halpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358126D76E1800BE905E /* Halpers.swift */; };
 		3C87B38726D7042C00DB5C0F /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37826D7042C00DB5C0F /* Constraints.swift */; };
 		3C87B38826D7042C00DB5C0F /* UIButton+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */; };
-		3C87B38926D7042C00DB5C0F /* PlayersTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37A26D7042C00DB5C0F /* PlayersTableView.swift */; };
 		3C87B38A26D7042C00DB5C0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B37C26D7042C00DB5C0F /* Assets.xcassets */; };
 		3C87B38B26D7042C00DB5C0F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B37D26D7042C00DB5C0F /* LaunchScreen.storyboard */; };
 		3C87B38C26D7042C00DB5C0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37F26D7042C00DB5C0F /* AppDelegate.swift */; };
@@ -17,13 +17,12 @@
 		3C87B38E26D7042C00DB5C0F /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B38226D7042C00DB5C0F /* Nunito-ExtraBold.ttf */; };
 		3C87B38F26D7042C00DB5C0F /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B38326D7042C00DB5C0F /* Nunito-SemiBold.ttf */; };
 		3C87B39026D7042C00DB5C0F /* NewGameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B38526D7042C00DB5C0F /* NewGameVC.swift */; };
-		3C87B39526D7048100DB5C0F /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B39426D7048100DB5C0F /* Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C32358126D76E1800BE905E /* Halpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Halpers.swift; sourceTree = "<group>"; };
 		3C87B37826D7042C00DB5C0F /* Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+extension.swift"; sourceTree = "<group>"; };
-		3C87B37A26D7042C00DB5C0F /* PlayersTableView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlayersTableView.swift; sourceTree = "<group>"; };
 		3C87B37C26D7042C00DB5C0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C87B37E26D7042C00DB5C0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C87B37F26D7042C00DB5C0F /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -31,7 +30,7 @@
 		3C87B38226D7042C00DB5C0F /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
 		3C87B38326D7042C00DB5C0F /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
 		3C87B38526D7042C00DB5C0F /* NewGameVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameVC.swift; sourceTree = "<group>"; };
-		3C87B39426D7048100DB5C0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; name = Info.plist; path = RSTask10_GameCounter/Info.plist; sourceTree = SOURCE_ROOT; };
+		3C87B39426D7048100DB5C0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = RSTask10_GameCounter/Info.plist; sourceTree = SOURCE_ROOT; };
 		3C90C2A826D6B8DF003C2E8F /* RSTask10_GameCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSTask10_GameCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -49,6 +48,7 @@
 		3C87B37626D7042C00DB5C0F /* RSTask10_GameCounter */ = {
 			isa = PBXGroup;
 			children = (
+				3C87B39426D7048100DB5C0F /* Info.plist */,
 				3C87B37726D7042C00DB5C0F /* Halpers */,
 				3C87B37B26D7042C00DB5C0F /* System */,
 				3C87B38126D7042C00DB5C0F /* Fonts */,
@@ -62,7 +62,7 @@
 			children = (
 				3C87B37826D7042C00DB5C0F /* Constraints.swift */,
 				3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */,
-				3C87B37A26D7042C00DB5C0F /* PlayersTableView.swift */,
+				3C32358126D76E1800BE905E /* Halpers.swift */,
 			);
 			path = Halpers;
 			sourceTree = "<group>";
@@ -91,7 +91,6 @@
 			isa = PBXGroup;
 			children = (
 				3C87B38526D7042C00DB5C0F /* NewGameVC.swift */,
-				3C87B39426D7048100DB5C0F /* Info.plist */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -172,7 +171,6 @@
 				3C87B38F26D7042C00DB5C0F /* Nunito-SemiBold.ttf in Resources */,
 				3C87B38A26D7042C00DB5C0F /* Assets.xcassets in Resources */,
 				3C87B38E26D7042C00DB5C0F /* Nunito-ExtraBold.ttf in Resources */,
-				3C87B39526D7048100DB5C0F /* Info.plist in Resources */,
 				3C87B38B26D7042C00DB5C0F /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -185,9 +183,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C87B38726D7042C00DB5C0F /* Constraints.swift in Sources */,
+				3C32358226D76E1800BE905E /* Halpers.swift in Sources */,
 				3C87B39026D7042C00DB5C0F /* NewGameVC.swift in Sources */,
 				3C87B38C26D7042C00DB5C0F /* AppDelegate.swift in Sources */,
-				3C87B38926D7042C00DB5C0F /* PlayersTableView.swift in Sources */,
 				3C87B38826D7042C00DB5C0F /* UIButton+extension.swift in Sources */,
 				3C87B38D26D7042C00DB5C0F /* SceneDelegate.swift in Sources */,
 			);
@@ -258,7 +256,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -313,7 +311,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 14.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -331,6 +329,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P8VCS3U2KK;
 				INFOPLIST_FILE = RSTask10_GameCounter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -338,7 +337,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.VyakulinSA.RSTask10-GameCounter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -350,6 +349,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = P8VCS3U2KK;
 				INFOPLIST_FILE = RSTask10_GameCounter/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -357,7 +357,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.VyakulinSA.RSTask10-GameCounter";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};
