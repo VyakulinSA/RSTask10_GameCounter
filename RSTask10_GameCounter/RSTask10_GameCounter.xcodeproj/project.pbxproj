@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		3C32358226D76E1800BE905E /* Halpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358126D76E1800BE905E /* Halpers.swift */; };
 		3C32358426D7C19D00BE905E /* icon_Sort.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3C32358326D7C19D00BE905E /* icon_Sort.svg */; };
+		3C32358826D80A8800BE905E /* AddPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358726D80A8800BE905E /* AddPlayerVC.swift */; };
+		3C32358A26D8114300BE905E /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358926D8114300BE905E /* UITextField+extension.swift */; };
 		3C87B38726D7042C00DB5C0F /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37826D7042C00DB5C0F /* Constraints.swift */; };
 		3C87B38826D7042C00DB5C0F /* UIButton+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */; };
 		3C87B38A26D7042C00DB5C0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B37C26D7042C00DB5C0F /* Assets.xcassets */; };
@@ -23,6 +25,8 @@
 /* Begin PBXFileReference section */
 		3C32358126D76E1800BE905E /* Halpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Halpers.swift; sourceTree = "<group>"; };
 		3C32358326D7C19D00BE905E /* icon_Sort.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icon_Sort.svg; sourceTree = "<group>"; };
+		3C32358726D80A8800BE905E /* AddPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerVC.swift; sourceTree = "<group>"; };
+		3C32358926D8114300BE905E /* UITextField+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
 		3C87B37826D7042C00DB5C0F /* Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+extension.swift"; sourceTree = "<group>"; };
 		3C87B37C26D7042C00DB5C0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -65,6 +69,7 @@
 				3C87B37826D7042C00DB5C0F /* Constraints.swift */,
 				3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */,
 				3C32358126D76E1800BE905E /* Halpers.swift */,
+				3C32358926D8114300BE905E /* UITextField+extension.swift */,
 			);
 			path = Halpers;
 			sourceTree = "<group>";
@@ -94,6 +99,7 @@
 			isa = PBXGroup;
 			children = (
 				3C87B38526D7042C00DB5C0F /* NewGameVC.swift */,
+				3C32358726D80A8800BE905E /* AddPlayerVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -190,6 +196,8 @@
 				3C32358226D76E1800BE905E /* Halpers.swift in Sources */,
 				3C87B39026D7042C00DB5C0F /* NewGameVC.swift in Sources */,
 				3C87B38C26D7042C00DB5C0F /* AppDelegate.swift in Sources */,
+				3C32358826D80A8800BE905E /* AddPlayerVC.swift in Sources */,
+				3C32358A26D8114300BE905E /* UITextField+extension.swift in Sources */,
 				3C87B38826D7042C00DB5C0F /* UIButton+extension.swift in Sources */,
 				3C87B38D26D7042C00DB5C0F /* SceneDelegate.swift in Sources */,
 			);
