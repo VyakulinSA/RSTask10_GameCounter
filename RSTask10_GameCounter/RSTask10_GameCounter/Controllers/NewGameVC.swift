@@ -13,7 +13,7 @@ class NewGameVC: UIViewController {
     let tableRowHeight: CGFloat = 41
     lazy var playersTableView = UITableView()
     
-    var dataHolder: Array = ["One","Two","Three","Four","Five"]
+    var dataHolder: Array = ["Kate","John","Betty"]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,12 +22,6 @@ class NewGameVC: UIViewController {
         self.settViews()
         
     }
-    
-    override func viewDidLayoutSubviews() {
-        //disable scroll if contentSize < tableViewFrame
-        playersTableView.isScrollEnabled = playersTableView.contentSize.height > playersTableView.frame.size.height
-    }
-    
     
     private func settViews(){
         let safeArea = self.view.safeAreaLayoutGuide
@@ -91,16 +85,16 @@ class NewGameVC: UIViewController {
             table.layer.cornerRadius = 15
             table.backgroundColor = UIColor(named: "elemBack")
             table.isEditing = true
-//            table.isScrollEnabled = false
+            table.alwaysBounceVertical = false
             return table
             
         }()
         
         self.view.addSubview(self.playersTableView)
         
-        self.playersTableView .anchor(top: gameCounterLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 25, left: 20, bottom: 0, right: 20))
-        
-        self.playersTableView .heightAnchor.constraint(lessThanOrEqualToConstant: 77 + tableRowHeight * CGFloat(dataHolder.count)).isActive = true
+        self.playersTableView.anchor(top: gameCounterLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 25, left: 20, bottom: 0, right: 20))
+        //MARK: tableViewHeight
+        self.playersTableView.heightAnchor.constraint(lessThanOrEqualToConstant: 120 + tableRowHeight * CGFloat(dataHolder.count)).isActive = true
         
         let bottomConstraint = self.playersTableView .bottomAnchor.constraint(equalTo: startGameButton.topAnchor, constant: -25)
         bottomConstraint.priority = UILayoutPriority(rawValue: 249)
@@ -110,15 +104,19 @@ class NewGameVC: UIViewController {
 }
 
 extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
+    
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return dataHolder.count
     }
     
+    //MARK: config cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
         cell.selectionStyle = .none
         cell.backgroundColor = UIColor(named: "elemBack")
         cell.textLabel?.text = dataHolder[indexPath.row]
+        cell.textLabel?.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 20)
+        cell.textLabel?.textColor = .white
         //FIXME: change image on code
         let sortIcon = UIImageView(image: UIImage(named: "icon_Sort"))
         sortIcon.translatesAutoresizingMaskIntoConstraints = false
@@ -129,17 +127,12 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
             sortIcon.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
         ])
         
-        if indexPath.row != dataHolder.count - 1{
             let seporator = UIView(frame: CGRect(x: 0, y: 0, width: cell.frame.width - 16, height: 1))
             seporator.backgroundColor = UIColor(named: "seporator")
             seporator.translatesAutoresizingMaskIntoConstraints = false
             cell.addSubview(seporator)
             
             seporator.anchor(top: nil, leading: cell.leadingAnchor, bottom: cell.bottomAnchor, trailing: cell.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0), size: CGSize(width: 0, height: 1))
-        } else {
-            cell.setEditing(true, animated: false)
-            print(cell.isEditing)
-        }
         return cell
     }
     
@@ -158,7 +151,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
     }
     
 
-    
+    //MARK: config headerView
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
         return 50
     }
@@ -181,13 +174,44 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
         return headerView
     }
     
-    func tableView(_ tableView: UITableView, canEditRowAt indexPath: IndexPath) -> Bool {
-        if indexPath.row != dataHolder.count - 1{
-            return true
-        }else{
-            return false
-        }
+    //MARK: config footerView
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return 50
     }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footerView = UIView()
+        footerView.backgroundColor = UIColor(named: "elemBack")
+        
+        let addButton: UIButton = {
+            let button = UIButton()
+            button.backgroundColor = UIColor(named: "tintColor")
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.setTitle("+", for: .normal)
+            return button
+        }()
+        
+        footerView.addSubview(addButton)
+        
+        addButton.anchor(top: footerView.topAnchor, leading: footerView.leadingAnchor, bottom: footerView.bottomAnchor, trailing: nil, padding: UIEdgeInsets(top: 14, left: 22, bottom: 15, right: 0), size: CGSize(width: 21, height: 21))
+        
+        addButton.layer.cornerRadius = 10.5
+        addButton.layer.masksToBounds = true
+        
+        let playerLabel: UILabel = {
+                let label = UILabel()
+                label.text = "Add player"
+                label.font = UIFont(name: CustomFonts.nunitoSemiBold.rawValue, size: 16)
+                label.textColor = UIColor(named: "tintColor")
+                label.translatesAutoresizingMaskIntoConstraints = false
+                return label
+            }()
+        footerView.addSubview(playerLabel)
+
+        playerLabel.anchor(top: footerView.topAnchor, leading: addButton.trailingAnchor, bottom: footerView.bottomAnchor, trailing: footerView.trailingAnchor, padding: UIEdgeInsets(top: 14, left: 15, bottom: 15, right: -29))
+        return footerView
+    }
+    
 }
 
 
