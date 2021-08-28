@@ -18,7 +18,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         window = UIWindow(windowScene: scene)
         
-        let rootVC = GameProcessVC()
+        let rootVC = ResultsVC()
         window?.rootViewController = rootVC
         window?.makeKeyAndVisible()
         
