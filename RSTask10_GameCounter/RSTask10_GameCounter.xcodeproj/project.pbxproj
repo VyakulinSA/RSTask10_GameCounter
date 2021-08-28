@@ -11,6 +11,10 @@
 		3C32358426D7C19D00BE905E /* icon_Sort.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3C32358326D7C19D00BE905E /* icon_Sort.svg */; };
 		3C32358826D80A8800BE905E /* AddPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358726D80A8800BE905E /* AddPlayerVC.swift */; };
 		3C32358A26D8114300BE905E /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358926D8114300BE905E /* UITextField+extension.swift */; };
+		3C7BF29726DA59DB00D5BA10 /* GameProcessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7BF29626DA59DB00D5BA10 /* GameProcessVC.swift */; };
+		3C7BF29926DA622300D5BA10 /* GameCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7BF29826DA622300D5BA10 /* GameCollectionViewCell.swift */; };
+		3C7BF29B26DA6FB400D5BA10 /* Nunito-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C7BF29A26DA6FB400D5BA10 /* Nunito-Bold.ttf */; };
+		3C7BF29E26DA9C2E00D5BA10 /* RollVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7BF29D26DA9C2E00D5BA10 /* RollVC.swift */; };
 		3C87B38726D7042C00DB5C0F /* Constraints.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37826D7042C00DB5C0F /* Constraints.swift */; };
 		3C87B38826D7042C00DB5C0F /* UIButton+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */; };
 		3C87B38A26D7042C00DB5C0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B37C26D7042C00DB5C0F /* Assets.xcassets */; };
@@ -27,6 +31,10 @@
 		3C32358326D7C19D00BE905E /* icon_Sort.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icon_Sort.svg; sourceTree = "<group>"; };
 		3C32358726D80A8800BE905E /* AddPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerVC.swift; sourceTree = "<group>"; };
 		3C32358926D8114300BE905E /* UITextField+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
+		3C7BF29626DA59DB00D5BA10 /* GameProcessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameProcessVC.swift; sourceTree = "<group>"; };
+		3C7BF29826DA622300D5BA10 /* GameCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameCollectionViewCell.swift; sourceTree = "<group>"; };
+		3C7BF29A26DA6FB400D5BA10 /* Nunito-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-Bold.ttf"; sourceTree = "<group>"; };
+		3C7BF29D26DA9C2E00D5BA10 /* RollVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RollVC.swift; sourceTree = "<group>"; };
 		3C87B37826D7042C00DB5C0F /* Constraints.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constraints.swift; sourceTree = "<group>"; };
 		3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIButton+extension.swift"; sourceTree = "<group>"; };
 		3C87B37C26D7042C00DB5C0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -51,14 +59,23 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3C7BF29C26DA9B7D00D5BA10 /* CustomView */ = {
+			isa = PBXGroup;
+			children = (
+				3C7BF29826DA622300D5BA10 /* GameCollectionViewCell.swift */,
+			);
+			path = CustomView;
+			sourceTree = "<group>";
+		};
 		3C87B37626D7042C00DB5C0F /* RSTask10_GameCounter */ = {
 			isa = PBXGroup;
 			children = (
-				3C87B39426D7048100DB5C0F /* Info.plist */,
 				3C87B38426D7042C00DB5C0F /* Controllers */,
+				3C7BF29C26DA9B7D00D5BA10 /* CustomView */,
 				3C87B37726D7042C00DB5C0F /* Halpers */,
 				3C87B37B26D7042C00DB5C0F /* System */,
 				3C87B38126D7042C00DB5C0F /* Fonts */,
+				3C87B39426D7048100DB5C0F /* Info.plist */,
 			);
 			path = RSTask10_GameCounter;
 			sourceTree = "<group>";
@@ -91,6 +108,7 @@
 				3C32358326D7C19D00BE905E /* icon_Sort.svg */,
 				3C87B38226D7042C00DB5C0F /* Nunito-ExtraBold.ttf */,
 				3C87B38326D7042C00DB5C0F /* Nunito-SemiBold.ttf */,
+				3C7BF29A26DA6FB400D5BA10 /* Nunito-Bold.ttf */,
 			);
 			path = Fonts;
 			sourceTree = "<group>";
@@ -100,6 +118,8 @@
 			children = (
 				3C87B38526D7042C00DB5C0F /* NewGameVC.swift */,
 				3C32358726D80A8800BE905E /* AddPlayerVC.swift */,
+				3C7BF29626DA59DB00D5BA10 /* GameProcessVC.swift */,
+				3C7BF29D26DA9C2E00D5BA10 /* RollVC.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -181,6 +201,7 @@
 				3C32358426D7C19D00BE905E /* icon_Sort.svg in Resources */,
 				3C87B38A26D7042C00DB5C0F /* Assets.xcassets in Resources */,
 				3C87B38E26D7042C00DB5C0F /* Nunito-ExtraBold.ttf in Resources */,
+				3C7BF29B26DA6FB400D5BA10 /* Nunito-Bold.ttf in Resources */,
 				3C87B38B26D7042C00DB5C0F /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -198,8 +219,11 @@
 				3C87B38C26D7042C00DB5C0F /* AppDelegate.swift in Sources */,
 				3C32358826D80A8800BE905E /* AddPlayerVC.swift in Sources */,
 				3C32358A26D8114300BE905E /* UITextField+extension.swift in Sources */,
+				3C7BF29926DA622300D5BA10 /* GameCollectionViewCell.swift in Sources */,
 				3C87B38826D7042C00DB5C0F /* UIButton+extension.swift in Sources */,
+				3C7BF29E26DA9C2E00D5BA10 /* RollVC.swift in Sources */,
 				3C87B38D26D7042C00DB5C0F /* SceneDelegate.swift in Sources */,
+				3C7BF29726DA59DB00D5BA10 /* GameProcessVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

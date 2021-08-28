@@ -27,7 +27,7 @@ class NewGameVC: UIViewController {
         let safeArea = self.view.safeAreaLayoutGuide
         
         //create cancelButton
-        let cancelButton = UIButton().createBarButton(title: "Cancel", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
+        let cancelButton = UIButton(type: .system).createBarButton(title: "Cancel", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
         
         self.view.addSubview(cancelButton)
         
@@ -49,7 +49,7 @@ class NewGameVC: UIViewController {
         
         //create startGameButton
         let startGameButton: UIButton = {
-            let button = UIButton()
+            let button = UIButton(type: .system)
             button.setTitle("Start game", for: .normal)
             button.titleLabel?.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 24)!
             
@@ -183,20 +183,11 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
         let footerView = UIView()
         footerView.backgroundColor = UIColor(named: "elemBack")
         
-        let addButton: UIButton = {
-            let button = UIButton()
-            button.backgroundColor = UIColor(named: "tintColor")
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.setTitle("+", for: .normal)
-            return button
-        }()
+        let addButton = UIButton(type: .system).createEllipseButton(title: "+", font: UIFont(name: "Nunito-ExtraBold", size: 16)!, radius: 10.5, shadow: false)
         
         footerView.addSubview(addButton)
         
         addButton.anchor(top: footerView.topAnchor, leading: footerView.leadingAnchor, bottom: footerView.bottomAnchor, trailing: nil, padding: UIEdgeInsets(top: 14, left: 22, bottom: 15, right: 0), size: CGSize(width: 21, height: 21))
-        
-        addButton.layer.cornerRadius = 10.5
-        addButton.layer.masksToBounds = true
         
         let playerLabel: UILabel = {
                 let label = UILabel()

@@ -10,4 +10,5 @@ import Foundation
 enum CustomFonts: String {
     case nunitoExtraBold = "Nunito-ExtraBold"
     case nunitoSemiBold = "Nunito-SemiBold"
+    case nunitoBold = "Nunito-Bold"
 }

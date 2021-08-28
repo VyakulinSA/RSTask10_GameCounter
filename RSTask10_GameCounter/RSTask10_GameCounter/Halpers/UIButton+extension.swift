@@ -13,8 +13,26 @@ extension UIButton{
         self.setTitle(title, for: .normal)
         self.titleLabel?.font = font
         self.setTitleColor(UIColor(named: "tintColor"), for: .normal)
+//        self.setTitleColor(UIColor(red: 0.518, green: 0.722, blue: 0.678, alpha: 0.5), for: .highlighted)
         self.translatesAutoresizingMaskIntoConstraints = false
         
+        return self
+    }
+    
+    func createEllipseButton(title: String, font: UIFont, radius: CGFloat, shadow: Bool)->UIButton{
+        self.setTitle(title, for: .normal)
+        self.titleLabel?.font = font
+        self.setTitleColor(.white, for: .normal)
+        self.backgroundColor = UIColor(named: "tintColor")
+        self.translatesAutoresizingMaskIntoConstraints = false
+        self.layer.cornerRadius = radius
+        self.layer.masksToBounds = true
+        if shadow{
+            self.titleLabel?.layer.shadowColor = UIColor(named: "buttonShadow")?.cgColor
+            self.titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 2)
+            self.titleLabel?.layer.shadowRadius = 0
+            self.titleLabel?.layer.shadowOpacity = 1.0
+        }
         return self
     }
     

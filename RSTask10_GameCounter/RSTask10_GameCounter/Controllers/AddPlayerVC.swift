@@ -21,7 +21,7 @@ class AddPlayerVC: UIViewController {
         let safeArea = self.view.safeAreaLayoutGuide
         
         //create cancelButton
-        let backButton = UIButton().createBarButton(title: "Back", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
+        let backButton = UIButton(type: .system).createBarButton(title: "Back", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
         
         self.view.addSubview(backButton)
         
@@ -43,7 +43,7 @@ class AddPlayerVC: UIViewController {
         
         
         //create addlButton
-        let addButton = UIButton().createBarButton(title: "Add", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
+        let addButton = UIButton(type: .system).createBarButton(title: "Add", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
         
         self.view.addSubview(addButton)
         
@@ -54,7 +54,8 @@ class AddPlayerVC: UIViewController {
             let textField = UITextField()
             textField.translatesAutoresizingMaskIntoConstraints = false
             textField.backgroundColor = UIColor(named: "elemBack")
-            textField.textColor = UIColor(red: 0.608, green: 0.608, blue: 0.631, alpha: 1)
+//            textField.textColor = UIColor(red: 0.608, green: 0.608, blue: 0.631, alpha: 1)
+            textField.textColor = .white
             textField.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 20)
             //FIXME: прочитать про настройку PlaceHolder
             let attributes = [
@@ -80,27 +81,27 @@ class AddPlayerVC: UIViewController {
 }
 
 
-//MARK: SwiftUI
-//Импортируем SwiftUI библиотеку
-import SwiftUI
-//создаем структуру
-struct PeopleVСProvider: PreviewProvider {
-    @available(iOS 13.0.0, *)
-    static var previews: some View {
-        ContainerView().edgesIgnoringSafeArea(.all)
-    }
-
-    @available(iOS 13.0, *)
-    struct ContainerView: UIViewControllerRepresentable {
-        //создадим объект класса, который хотим показывать в Canvas
-        let tabBarVC = AddPlayerVC()
-        //меняем input параметры в соответствии с образцом
-        @available(iOS 13.0, *)
-        func makeUIViewController(context: UIViewControllerRepresentableContext<PeopleVСProvider.ContainerView>) -> AddPlayerVC {
-            return tabBarVC
-        }
-        //не пишем никакого кода
-        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        }
-    }
-}
+////MARK: SwiftUI
+////Импортируем SwiftUI библиотеку
+//import SwiftUI
+////создаем структуру
+//struct PeopleVСProvider: PreviewProvider {
+//    @available(iOS 13.0.0, *)
+//    static var previews: some View {
+//        ContainerView().edgesIgnoringSafeArea(.all)
+//    }
+//
+//    @available(iOS 13.0, *)
+//    struct ContainerView: UIViewControllerRepresentable {
+//        //создадим объект класса, который хотим показывать в Canvas
+//        let tabBarVC = AddPlayerVC()
+//        //меняем input параметры в соответствии с образцом
+//        @available(iOS 13.0, *)
+//        func makeUIViewController(context: UIViewControllerRepresentableContext<PeopleVСProvider.ContainerView>) -> AddPlayerVC {
+//            return tabBarVC
+//        }
+//        //не пишем никакого кода
+//        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+//        }
+//    }
+//}
