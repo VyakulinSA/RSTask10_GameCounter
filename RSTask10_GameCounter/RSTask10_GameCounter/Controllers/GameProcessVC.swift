@@ -237,10 +237,12 @@ final class GameProcessVC: UIViewController {
         undoButton.anchor(top: nil, leading: safeArea.leadingAnchor, bottom: self.view.bottomAnchor, trailing: nil, padding: UIEdgeInsets(top: 0, left: 40, bottom: 32, right: 0))
     }
     
-//    @objc func rollButtonTapped() {
-//        let rollVC = RollVC()
-//        present(RollVC.self, animated: true, completion: nil)
-//    }
+    @objc func rollButtonTapped() {
+        let rollVC = RollVC()
+        //FIXME: сделать кастомную анимацию перехода (из центра экрана с шатанием кубика)
+        rollVC.modalPresentationStyle = .overFullScreen
+        show(rollVC, sender: nil)
+    }
 
 }
 
