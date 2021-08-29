@@ -15,7 +15,8 @@ class NewGameVC: UIViewController {
     private var tableViewHeightConstraint: NSLayoutConstraint?
     let firstStart = true
     
-    var delegate: GameProcessVC?
+    var gameProcessDelegate: GameProcessVC?
+    var resultDelegate: ResultsVC?
     
     //create cancelButton
     let cancelButton = UIButton(type: .system).createBarButton(title: "Cancel", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
@@ -73,6 +74,7 @@ class NewGameVC: UIViewController {
         
         cancelButton.isHidden = !firstStart
         
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         //create label
         let gameCounterLabel: UILabel = {
             let label = UILabel()
@@ -250,18 +252,36 @@ extension NewGameVC{
     }
     
     @objc func startGameButtonTapped() {
-        if delegate != nil {
-            delegate?.settDataHolder()
-            delegate?.gamerCollectionView.reloadData()
-            dismiss(animated: false, completion: nil)
+        for i in 0..<DataClass.sharedInstance().playersArray.count{
+            DataClass.sharedInstance().playersArray[i].score = 0
+            DataClass.sharedInstance().playersArray[i].position = 0
+        }
+        
+        settDataHolder()
+        
+        if resultDelegate != nil {
+            view.window?.rootViewController?.dismiss(animated: false, completion: nil)
+        }
+        if gameProcessDelegate != nil {
+            gameProcessDelegate?.settDataHolder()
+            gameProcessDelegate?.prepareLetterStackView()
+            gameProcessDelegate?.gamerCollectionView.reloadData()
+            
+            dismiss(animated: true, completion: nil)
         } else {
             let gameProcessVC = GameProcessVC()
             gameProcessVC.modalPresentationStyle = .fullScreen
             dismiss(animated: false, completion: nil)
             present(gameProcessVC, animated: true, completion: nil)
         }
-        
-        
+    }
+    
+    @objc func cancelButtonTapped(){
+        dismiss(animated: true, completion: nil)
+    }
+    
+    func dismiss_all(view: UIView){
+        view.window!.rootViewController?.dismiss(animated: false, completion: nil)
     }
 }
 

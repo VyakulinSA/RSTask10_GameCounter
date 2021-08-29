@@ -22,7 +22,17 @@ final class GameProcessVC: UIViewController {
     
     func settDataHolder() {
         dataHolder = DataClass.sharedInstance().playersArray
+        gamerCollectionView.selectItem(at: IndexPath(indexes: [0,0]), animated: true, scrollPosition: .centeredHorizontally)
         gamerCollectionView.reloadData()
+    }
+    
+    func prepareLetterStackView() {
+        let arangedSubviews = letterStackName.arrangedSubviews
+        for view in arangedSubviews{
+            letterStackName.removeArrangedSubview(view)
+            view.removeFromSuperview()
+        }
+        settLetterStackView()
     }
     
     lazy var gamerCollectionView: UICollectionView = {
@@ -73,7 +83,7 @@ final class GameProcessVC: UIViewController {
     private func settViews(){
         let safeArea = self.view.safeAreaLayoutGuide
         
-        //MARK:create cancelButton
+        //MARK:create newGameButton
         let newGameButton = UIButton(type: .system).createBarButton(title: "New Game", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
         
         self.view.addSubview(newGameButton)
@@ -81,13 +91,14 @@ final class GameProcessVC: UIViewController {
         newGameButton.anchor(top: safeArea.topAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0))
         
         newGameButton.addTarget(self, action: #selector(newGameButtonTapped), for: .touchUpInside)
-        //MARK:create addlButton
+        //MARK:create resultsButton
         let resultsButton = UIButton(type: .system).createBarButton(title: "Results", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
         
         self.view.addSubview(resultsButton)
         
         resultsButton.anchor(top: safeArea.topAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 25))
         
+        resultsButton.addTarget(self, action: #selector(resultsButtonTapped), for: .touchUpInside)
         //MARK:create gamelabel
         let gameLabel: UILabel = {
             let label = UILabel()
@@ -220,19 +231,8 @@ final class GameProcessVC: UIViewController {
             letterStackName.heightAnchor.constraint(equalToConstant: 27),
         ])
         
+        settLetterStackView()
         
-        for i in 0..<dataHolder.count {
-            let firstLetter = dataHolder[i].name.first!.uppercased()
-            let label = UILabel()
-            label.text = firstLetter
-            label.font = UIFont(name: "Nunito-ExtraBold", size: 20)
-            if i == 0{
-                label.textColor = .white
-            }else {
-                label.textColor = UIColor(named: "elemBack")
-            }
-            letterStackName.addArrangedSubview(label)
-        }
         
         //FIXME: сделать стэк без костылей
         //MARK:create support views for stackView
@@ -278,6 +278,21 @@ final class GameProcessVC: UIViewController {
         guard let indexPathOnScreen = gamerCollectionView.indexPathForItem(at: self.view.convert(self.view.center, to: gamerCollectionView)) else {return nil}
         let indexCenter = indexPathOnScreen.item
         return indexCenter
+    }
+    
+    func settLetterStackView(){
+        for i in 0..<dataHolder.count {
+            let firstLetter = dataHolder[i].name.first!.uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = UIFont(name: "Nunito-ExtraBold", size: 20)
+            if i == 0{
+                label.textColor = .white
+            }else {
+                label.textColor = UIColor(named: "elemBack")
+            }
+            letterStackName.addArrangedSubview(label)
+        }
     }
 
 }
@@ -377,7 +392,7 @@ extension GameProcessVC{
     
     @objc func newGameButtonTapped(){
         let newGameVC = NewGameVC()
-        newGameVC.delegate = self
+        newGameVC.gameProcessDelegate = self
         present(newGameVC, animated: true, completion: nil)
         
     }
@@ -418,6 +433,12 @@ extension GameProcessVC{
         DataClass.sharedInstance().playersArray[lastTurn.playersIndex.item].score -= Int(lastTurn.addScore)!
         gamerCollectionView.selectItem(at: lastTurn.playersIndex, animated: true, scrollPosition: .centeredHorizontally)
         settDataHolder()
+        
+    }
+    
+    @objc func resultsButtonTapped(){
+        let resultVC = ResultsVC()
+        present(resultVC, animated: true, completion: nil)
         
     }
 }

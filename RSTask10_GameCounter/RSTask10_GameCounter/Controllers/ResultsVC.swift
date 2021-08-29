@@ -9,7 +9,8 @@ import UIKit
 
 class ResultsVC: UIViewController {
     
-    var dataHolder: Array = ["Kate","John","Betty"]
+    var dataHolder = DataClass.sharedInstance().playersArray
+    var turnsArray = DataClass.sharedInstance().turnsArray
     let rowHeight: CGFloat = 41
     
     override func viewDidLoad() {
@@ -29,6 +30,7 @@ class ResultsVC: UIViewController {
         
         newGameButton.anchor(top: safeArea.topAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0))
         
+        newGameButton.addTarget(self, action: #selector(newGameButtonTapped), for: .touchUpInside)
         //create addlButton
         let resumeButton = UIButton(type: .system).createBarButton(title: "Resume", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
         
@@ -36,6 +38,7 @@ class ResultsVC: UIViewController {
         
         resumeButton.anchor(top: safeArea.topAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 25))
         
+        resumeButton.addTarget(self, action: #selector(resumeButtonTapped), for: .touchUpInside)
         //create gamelabel
         let resultsLabel: UILabel = {
             let label = UILabel()
@@ -99,12 +102,12 @@ class ResultsVC: UIViewController {
 
 extension ResultsVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return dataHolder.count
+        return turnsArray.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellResults", for: indexPath) as! ResultsTableViewCell
-        cell.settScore(name: dataHolder[indexPath.row], score: Int.random(in: 0...10))
+        cell.settScore(name: turnsArray[indexPath.row].player.name, score: turnsArray[indexPath.row].addScore)
         return cell
     }
     
@@ -147,7 +150,34 @@ extension ResultsVC: UICollectionViewDelegate, UICollectionViewDataSource{
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "resultCell", for: indexPath) as! ResultCollectionViewCell
-        cell.settLabels(position: indexPath.item, name: dataHolder[indexPath.item], score: Int.random(in: 0...100))
+        
+        var filteredPlayers = dataHolder.sorted { pl1, pl2 in
+            pl1.name < pl2.name
+        }
+        
+        filteredPlayers.sort { pl1, pl2 in
+            pl1.score > pl2.score
+        }
+        
+        var score = 0
+        var position = 1
+        for i in 0..<filteredPlayers.count{
+            if i == 0{
+                score = filteredPlayers[i].score
+                filteredPlayers[i].position = position
+                continue
+            }
+            if filteredPlayers[i].score == score{
+                filteredPlayers[i].position = position
+            }else {
+                score = filteredPlayers[i].score
+                position += 1
+                filteredPlayers[i].position = position
+            }
+        }
+        
+        
+        cell.settLabels(position: filteredPlayers[indexPath.item].position, name: filteredPlayers[indexPath.item].name, score: filteredPlayers[indexPath.item].score)
         return cell
     }
     
@@ -164,6 +194,21 @@ extension ResultsVC: UICollectionViewDelegateFlowLayout {
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10.0
+    }
+}
+
+//MARK: Targets
+extension ResultsVC{
+    
+    @objc func resumeButtonTapped(){
+        dismiss(animated: true, completion: nil)
+    }
+    
+    @objc func newGameButtonTapped(){
+        let newGameVC = NewGameVC()
+        newGameVC.resultDelegate = self
+        present(newGameVC, animated: true, completion: nil)
+        
     }
 }
 

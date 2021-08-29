@@ -47,9 +47,9 @@ class ResultsTableViewCell: UITableViewCell {
         ])
     }
     
-    func settScore(name: String, score: Int){
+    func settScore(name: String, score: String){
         self.textLabel?.text = name
-        addScoreLabel.text = "\(score)"
+        addScoreLabel.text = score
     }
     
     
