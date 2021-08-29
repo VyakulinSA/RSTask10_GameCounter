@@ -16,6 +16,7 @@ class DataClass{
     private init() {}
     
     var playersArray = [Player]()
+    var turnsArray = [Turn]()
     
     class func sharedInstance() -> DataClass {
         return DataClass.shared
@@ -27,4 +28,9 @@ class DataClass{
 struct Player {
     let name: String
     let score: Int
+}
+
+struct Turn {
+    let name: String
+    let addScore: String
 }
