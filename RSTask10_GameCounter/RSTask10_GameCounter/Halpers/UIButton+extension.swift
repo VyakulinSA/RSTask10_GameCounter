@@ -13,7 +13,6 @@ extension UIButton{
         self.setTitle(title, for: .normal)
         self.titleLabel?.font = font
         self.setTitleColor(UIColor(named: "tintColor"), for: .normal)
-//        self.setTitleColor(UIColor(red: 0.518, green: 0.722, blue: 0.678, alpha: 0.5), for: .highlighted)
         self.translatesAutoresizingMaskIntoConstraints = false
         
         return self
@@ -34,6 +33,16 @@ extension UIButton{
             self.titleLabel?.layer.shadowOpacity = 1.0
         }
         return self
+    }
+    
+    func onOffButton(enable: Bool){
+        if enable{
+            self.isEnabled = true
+            self.alpha = 1
+        } else {
+            self.isEnabled = false
+            self.alpha = 0.5
+        }
     }
     
 }

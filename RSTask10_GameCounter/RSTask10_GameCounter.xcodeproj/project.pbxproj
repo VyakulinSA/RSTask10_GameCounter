@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3C2221D726DB5DDF0006FBF2 /* ResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2221D626DB5DDF0006FBF2 /* ResultsTableViewCell.swift */; };
+		3C2221D926DB6FE30006FBF2 /* DataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2221D826DB6FE30006FBF2 /* DataClass.swift */; };
 		3C32358226D76E1800BE905E /* Halpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358126D76E1800BE905E /* Halpers.swift */; };
 		3C32358426D7C19D00BE905E /* icon_Sort.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3C32358326D7C19D00BE905E /* icon_Sort.svg */; };
 		3C32358826D80A8800BE905E /* AddPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358726D80A8800BE905E /* AddPlayerVC.swift */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		3C2221D626DB5DDF0006FBF2 /* ResultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewCell.swift; sourceTree = "<group>"; };
+		3C2221D826DB6FE30006FBF2 /* DataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataClass.swift; sourceTree = "<group>"; };
 		3C32358126D76E1800BE905E /* Halpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Halpers.swift; sourceTree = "<group>"; };
 		3C32358326D7C19D00BE905E /* icon_Sort.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icon_Sort.svg; sourceTree = "<group>"; };
 		3C32358726D80A8800BE905E /* AddPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerVC.swift; sourceTree = "<group>"; };
@@ -91,9 +93,10 @@
 		3C87B37726D7042C00DB5C0F /* Halpers */ = {
 			isa = PBXGroup;
 			children = (
+				3C2221D826DB6FE30006FBF2 /* DataClass.swift */,
 				3C87B37826D7042C00DB5C0F /* Constraints.swift */,
-				3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */,
 				3C32358126D76E1800BE905E /* Halpers.swift */,
+				3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */,
 				3C32358926D8114300BE905E /* UITextField+extension.swift */,
 			);
 			path = Halpers;
@@ -222,6 +225,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C2221D926DB6FE30006FBF2 /* DataClass.swift in Sources */,
 				3C87B38726D7042C00DB5C0F /* Constraints.swift in Sources */,
 				3C7BF2A026DAA7AC00D5BA10 /* ResultsVC.swift in Sources */,
 				3C2221D726DB5DDF0006FBF2 /* ResultsTableViewCell.swift in Sources */,
