@@ -21,7 +21,7 @@ class GameCollectionViewCell: UICollectionViewCell {
         settViews()
     }
     
-    private let nameLabel: UILabel = {
+    let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "nameColor")
         label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28)

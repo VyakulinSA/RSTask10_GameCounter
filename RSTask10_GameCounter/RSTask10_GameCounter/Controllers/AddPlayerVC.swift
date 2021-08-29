@@ -107,7 +107,7 @@ extension AddPlayerVC {
     
     @objc func addButtonTapped() {
         let newPlayer = playerNameTF.text!
-        DataClass.sharedInstance().playersArray.append(Player(name: newPlayer, score: 0))
+        DataClass.sharedInstance().playersArray.append(Player(name: newPlayer, score: 0, select: DataClass.sharedInstance().playersArray.count == 0))
         delegate?.settDataHolder()
         delegate?.playersTableView.reloadData()
         dismiss(animated: true, completion: nil)
