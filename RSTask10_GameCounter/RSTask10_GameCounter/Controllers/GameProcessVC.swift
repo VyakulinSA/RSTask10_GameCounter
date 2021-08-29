@@ -263,6 +263,8 @@ final class GameProcessVC: UIViewController {
         self.view.addSubview(undoButton)
         
         undoButton.anchor(top: nil, leading: safeArea.leadingAnchor, bottom: self.view.bottomAnchor, trailing: nil, padding: UIEdgeInsets(top: 0, left: 40, bottom: 32, right: 0))
+        
+        undoButton.addTarget(self, action: #selector(undoButtonTapped), for: .touchUpInside)
     }
     
     @objc func rollButtonTapped() {
@@ -370,6 +372,7 @@ extension GameProcessVC: UIScrollViewDelegate{
     }
 }
 
+//MARK: Targets
 extension GameProcessVC{
     
     @objc func newGameButtonTapped(){
@@ -383,12 +386,11 @@ extension GameProcessVC{
         guard let indexPathOnScreen = gamerCollectionView.indexPathForItem(at: self.view.convert(self.view.center, to: gamerCollectionView)) else {return}
         let indexCenter = indexPathOnScreen.item
         let plusNumber = Int((sender.titleLabel?.text)!)!
-        let collectionCell = gamerCollectionView.cellForItem(at: indexPathOnScreen) as! GameCollectionViewCell
-        let playerName = collectionCell.nameLabel.text!
         
         DataClass.sharedInstance().playersArray[indexCenter].score += plusNumber
-        DataClass.sharedInstance().turnsArray.append(Turn(name: playerName, addScore: (sender.titleLabel?.text)!))
+        DataClass.sharedInstance().turnsArray.append(Turn(player: DataClass.sharedInstance().playersArray[indexCenter], addScore: (sender.titleLabel?.text)!, playersIndex: indexPathOnScreen))
         settDataHolder()
+        nextButtonTapped()
     }
     
     @objc func previousButtonTapped(){
@@ -409,6 +411,14 @@ extension GameProcessVC{
             indexPathOnScreen.item += 1
         }
         gamerCollectionView.selectItem(at: indexPathOnScreen, animated: true, scrollPosition: .centeredHorizontally)
+    }
+    
+    @objc func undoButtonTapped(){
+        guard let lastTurn = DataClass.sharedInstance().turnsArray.popLast() else {return}
+        DataClass.sharedInstance().playersArray[lastTurn.playersIndex.item].score -= Int(lastTurn.addScore)!
+        gamerCollectionView.selectItem(at: lastTurn.playersIndex, animated: true, scrollPosition: .centeredHorizontally)
+        settDataHolder()
+        
     }
 }
 

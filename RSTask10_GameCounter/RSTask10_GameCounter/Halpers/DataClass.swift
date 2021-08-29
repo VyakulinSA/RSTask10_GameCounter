@@ -32,9 +32,11 @@ struct Player {
     let name: String
     var score: Int
     var select: Bool
+    let id = UUID()
 }
 
 struct Turn {
-    let name: String
+    let player: Player
     let addScore: String
+    let playersIndex: IndexPath
 }
