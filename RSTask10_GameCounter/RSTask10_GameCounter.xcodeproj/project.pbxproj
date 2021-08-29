@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3C2221D726DB5DDF0006FBF2 /* ResultsTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2221D626DB5DDF0006FBF2 /* ResultsTableViewCell.swift */; };
 		3C32358226D76E1800BE905E /* Halpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358126D76E1800BE905E /* Halpers.swift */; };
 		3C32358426D7C19D00BE905E /* icon_Sort.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3C32358326D7C19D00BE905E /* icon_Sort.svg */; };
 		3C32358826D80A8800BE905E /* AddPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358726D80A8800BE905E /* AddPlayerVC.swift */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3C2221D626DB5DDF0006FBF2 /* ResultsTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResultsTableViewCell.swift; sourceTree = "<group>"; };
 		3C32358126D76E1800BE905E /* Halpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Halpers.swift; sourceTree = "<group>"; };
 		3C32358326D7C19D00BE905E /* icon_Sort.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icon_Sort.svg; sourceTree = "<group>"; };
 		3C32358726D80A8800BE905E /* AddPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerVC.swift; sourceTree = "<group>"; };
@@ -68,6 +70,7 @@
 			children = (
 				3C7BF29826DA622300D5BA10 /* GameCollectionViewCell.swift */,
 				3C7BF2A126DAB5CF00D5BA10 /* ResultCollectionViewCell.swift */,
+				3C2221D626DB5DDF0006FBF2 /* ResultsTableViewCell.swift */,
 			);
 			path = CustomView;
 			sourceTree = "<group>";
@@ -221,6 +224,7 @@
 			files = (
 				3C87B38726D7042C00DB5C0F /* Constraints.swift in Sources */,
 				3C7BF2A026DAA7AC00D5BA10 /* ResultsVC.swift in Sources */,
+				3C2221D726DB5DDF0006FBF2 /* ResultsTableViewCell.swift in Sources */,
 				3C32358226D76E1800BE905E /* Halpers.swift in Sources */,
 				3C87B39026D7042C00DB5C0F /* NewGameVC.swift in Sources */,
 				3C87B38C26D7042C00DB5C0F /* AppDelegate.swift in Sources */,

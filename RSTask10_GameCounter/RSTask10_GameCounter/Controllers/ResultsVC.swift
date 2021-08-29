@@ -11,10 +11,10 @@ class ResultsVC: UIViewController {
     
     var dataHolder: Array = ["Kate","John","Betty"]
     let rowHeight: CGFloat = 41
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = UIColor(named: "backGround")
         self.settViews()
         
     }
@@ -58,12 +58,12 @@ class ResultsVC: UIViewController {
             layout.scrollDirection = .vertical
             let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
             view.translatesAutoresizingMaskIntoConstraints = false
-            view.showsVerticalScrollIndicator = true
+            view.showsVerticalScrollIndicator = false
             view.showsHorizontalScrollIndicator = false
             view.register(ResultCollectionViewCell.self, forCellWithReuseIdentifier: "resultCell")
             view.delegate = self
             view.dataSource = self
-            view.backgroundColor = .black
+            view.backgroundColor = UIColor(named: "backGround")
             return view
         }()
         
@@ -77,7 +77,7 @@ class ResultsVC: UIViewController {
         
         let resultsTableView: UITableView = {
             let table = UITableView(frame: .zero, style: .grouped)
-            table.register(UITableViewCell.self, forCellReuseIdentifier: "cellResults")
+            table.register(ResultsTableViewCell.self, forCellReuseIdentifier: "cellResults")
             table.delegate = self
             table.dataSource = self
             table.translatesAutoresizingMaskIntoConstraints = false
@@ -93,21 +93,18 @@ class ResultsVC: UIViewController {
         
     }
     
-
-
-
 }
 
 //MARK: Table
 
 extension ResultsVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        5
+        return dataHolder.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellResults", for: indexPath)
-        cell.backgroundColor = .red
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellResults", for: indexPath) as! ResultsTableViewCell
+        cell.settScore(name: dataHolder[indexPath.row], score: Int.random(in: 0...10))
         return cell
     }
     
@@ -124,17 +121,17 @@ extension ResultsVC: UITableViewDelegate, UITableViewDataSource{
         let headerView = UIView()
         headerView.backgroundColor = UIColor(named: "elemBack")
         let playerLabel: UILabel = {
-                let label = UILabel()
-                label.text = "Turns"
-                label.font = UIFont(name: CustomFonts.nunitoSemiBold.rawValue, size: 16)
-                label.textColor = UIColor(red: 0.922, green: 0.922, blue: 0.961, alpha: 0.6)
-                label.translatesAutoresizingMaskIntoConstraints = false
-                return label
-            }()
+            let label = UILabel()
+            label.text = "Turns"
+            label.font = UIFont(name: CustomFonts.nunitoSemiBold.rawValue, size: 16)
+            label.textColor = UIColor(red: 0.922, green: 0.922, blue: 0.961, alpha: 0.6)
+            label.translatesAutoresizingMaskIntoConstraints = false
+            return label
+        }()
         headerView.addSubview(playerLabel)
-
+        
         playerLabel.anchor(top: headerView.topAnchor, leading: headerView.leadingAnchor, bottom: nil, trailing: headerView.trailingAnchor, padding: UIEdgeInsets(top: 16, left: 16, bottom: 0, right: -16))
-
+        
         return headerView
     }
     
@@ -149,11 +146,8 @@ extension ResultsVC: UICollectionViewDelegate, UICollectionViewDataSource{
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "resultCell", for: indexPath)
-        
-        if let cell = cell as? ResultCollectionViewCell {
-            cell.settLabels(position: indexPath.item, name: dataHolder[indexPath.item], score: Int.random(in: 0...100))
-        }
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "resultCell", for: indexPath) as! ResultCollectionViewCell
+        cell.settLabels(position: indexPath.item, name: dataHolder[indexPath.item], score: Int.random(in: 0...100))
         return cell
     }
     
@@ -161,13 +155,13 @@ extension ResultsVC: UICollectionViewDelegate, UICollectionViewDataSource{
 }
 
 extension ResultsVC: UICollectionViewDelegateFlowLayout {
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width
         let height: CGFloat = rowHeight
         return CGSize(width: width, height: height)
     }
-
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10.0
     }
@@ -183,7 +177,7 @@ struct PeopleVСProvider: PreviewProvider {
     static var previews: some View {
         ContainerView().edgesIgnoringSafeArea(.all)
     }
-
+    
     @available(iOS 13.0, *)
     struct ContainerView: UIViewControllerRepresentable {
         //создадим объект класса, который хотим показывать в Canvas

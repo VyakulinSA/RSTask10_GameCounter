@@ -13,7 +13,7 @@ final class GameProcessVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = .black
+        self.view.backgroundColor = UIColor(named: "backGround")
         self.settViews()
         
     }
@@ -109,7 +109,7 @@ final class GameProcessVC: UIViewController {
             view.register(GameCollectionViewCell.self, forCellWithReuseIdentifier: "gameCell")
             view.delegate = self
             view.dataSource = self
-            view.backgroundColor = .black
+            view.backgroundColor = UIColor(named: "backGround")
             return view
         }()
         
@@ -184,7 +184,7 @@ final class GameProcessVC: UIViewController {
             stack.axis = .horizontal
             stack.alignment = .center
             stack.distribution = .fill
-            stack.backgroundColor = .black
+            stack.backgroundColor = UIColor(named: "backGround")
             return stack
         }()
         
@@ -209,7 +209,7 @@ final class GameProcessVC: UIViewController {
         //FIXME: сделать стэк без костылей
         //create support views for stackView
         let cust = UIView()
-        cust.backgroundColor = .black
+        cust.backgroundColor = UIColor(named: "backGround")
         cust.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(cust)
@@ -217,7 +217,7 @@ final class GameProcessVC: UIViewController {
         cust.anchor(top: nil, leading: safeArea.leadingAnchor, bottom: self.view.bottomAnchor, trailing: nil, padding: UIEdgeInsets(top: 0, left: 0, bottom: 32, right: 0), size: CGSize(width: 60, height: 30))
         
         let cust1 = UIView()
-        cust1.backgroundColor = .black
+        cust1.backgroundColor = UIColor(named: "backGround")
         cust1.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(cust1)
