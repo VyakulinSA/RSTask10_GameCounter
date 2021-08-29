@@ -9,7 +9,8 @@ import UIKit
 
 final class GameProcessVC: UIViewController {
     
-    var dataHolder: Array = ["Kate","John","Betty"]
+    private var dataHolder = DataClass.sharedInstance().playersArray
+    var newGame = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -17,6 +18,27 @@ final class GameProcessVC: UIViewController {
         self.settViews()
         
     }
+    
+    func settDataHolder() {
+        dataHolder = DataClass.sharedInstance().playersArray
+    }
+    
+    lazy var gamerCollectionView: UICollectionView = {
+        let layout = CustomCollectionViewFlowLayout()
+        layout.scrollDirection = .horizontal
+        let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.showsVerticalScrollIndicator = false
+        view.showsHorizontalScrollIndicator = false
+        
+        view.register(GameCollectionViewCell.self, forCellWithReuseIdentifier: "gameCell")
+        view.delegate = self
+        view.dataSource = self
+        view.backgroundColor = UIColor(named: "backGround")
+        view.isPagingEnabled = false
+        view.decelerationRate = .fast
+        return view
+    }()
     
     
     private func settViews(){
@@ -29,6 +51,7 @@ final class GameProcessVC: UIViewController {
         
         newGameButton.anchor(top: safeArea.topAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0))
         
+        newGameButton.addTarget(self, action: #selector(newGameButtonTapped), for: .touchUpInside)
         //create addlButton
         let resultsButton = UIButton(type: .system).createBarButton(title: "Results", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
         
@@ -98,24 +121,14 @@ final class GameProcessVC: UIViewController {
         
         //create collectionView
         
-        let collectionView: UICollectionView = {
-            let layout = UICollectionViewFlowLayout()
-            layout.scrollDirection = .horizontal
-            let view = UICollectionView(frame: .zero, collectionViewLayout: layout)
-            view.translatesAutoresizingMaskIntoConstraints = false
-            view.showsVerticalScrollIndicator = false
-            view.showsHorizontalScrollIndicator = false
-            
-            view.register(GameCollectionViewCell.self, forCellWithReuseIdentifier: "gameCell")
-            view.delegate = self
-            view.dataSource = self
-            view.backgroundColor = UIColor(named: "backGround")
-            return view
-        }()
         
-        self.view.addSubview(collectionView)
         
-        collectionView.anchor(top: timerLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 42, left: 0, bottom: 0, right: 0), size: CGSize(width: 0, height: 300))
+        self.view.addSubview(gamerCollectionView)
+        
+        
+        
+        
+        gamerCollectionView.anchor(top: timerLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 42, left: 0, bottom: 0, right: 0), size: CGSize(width: 0, height: 300))
         
         //create previous button
         let previousButton: UIButton = {
@@ -128,7 +141,7 @@ final class GameProcessVC: UIViewController {
         
         self.view.addSubview(previousButton)
         
-        previousButton.anchor(top: collectionView.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 58, left: 46, bottom: 0, right: 0))
+        previousButton.anchor(top: gamerCollectionView.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 58, left: 46, bottom: 0, right: 0))
         
         //create next button
         let nextButton: UIButton = {
@@ -141,7 +154,7 @@ final class GameProcessVC: UIViewController {
         
         self.view.addSubview(nextButton)
         
-        nextButton.anchor(top: collectionView.bottomAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 58, left: 0, bottom: 0, right: 46))
+        nextButton.anchor(top: gamerCollectionView.bottomAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 58, left: 0, bottom: 0, right: 46))
         
         //create plusOne button
         let plusOneButton = UIButton(type: .system).createEllipseButton(title: "+1", font: UIFont(name: "Nunito-ExtraBold", size: 40)!, radius: 45, shadow: true)
@@ -197,8 +210,8 @@ final class GameProcessVC: UIViewController {
         ])
         
         
-        for name in dataHolder {
-            let firstLetter = name.first!.uppercased()
+        for player in dataHolder {
+            let firstLetter = player.name.first!.uppercased()
             let label = UILabel()
             label.text = firstLetter
             label.font = UIFont(name: "Nunito-ExtraBold", size: 20)
@@ -258,7 +271,7 @@ extension GameProcessVC: UICollectionViewDataSource {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gameCell", for: indexPath)
         
         if let cell = cell as? GameCollectionViewCell {
-            cell.settLabels(name: dataHolder[indexPath.item], score: indexPath.item)
+            cell.settLabels(name: dataHolder[indexPath.item].name, score: dataHolder[indexPath.item].score)
         }
         
         return cell
@@ -278,6 +291,9 @@ extension GameProcessVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
         let leftRightInsets: CGFloat = (self.view.frame.width - 255) / 2
+        if let layout = collectionViewLayout as? CustomCollectionViewFlowLayout{
+            layout.padding = leftRightInsets
+        }
         
          let sectionInsets: UIEdgeInsets = .init(top: 0, left: leftRightInsets, bottom: 0, right: leftRightInsets)
         return sectionInsets
@@ -286,27 +302,23 @@ extension GameProcessVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 20.0
     }
+    
+}
+
+extension GameProcessVC{
+    
+    @objc func newGameButtonTapped(){
+        let newGameVC = NewGameVC()
+        newGameVC.delegate = self
+        present(newGameVC, animated: true, completion: nil)
+        
+    }
 }
 
 // MARK: - UICollectionViewDelegate
 
 extension GameProcessVC: UICollectionViewDelegate {
-    
-//    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        let type = presenter.type(at: indexPath.item)
-//        switch type {
-//        case .gallery(let gallery):
-//            let presenter = RSGalleryPresenter(gallery: gallery)
-//            let controller = RSGalleryViewController(presenter: presenter)
-//            controller.modalPresentationStyle = .fullScreen
-//            present(controller, animated: true)
-//        case .story(let story):
-//            let presenter = RSStoryPresenter(story: story)
-//            let controller = RSStoryViewController(presenter: presenter)
-//            controller.modalPresentationStyle = .fullScreen
-//            present(controller, animated: true)
-//        }
-//    }
+
 }
 
 ////MARK: SwiftUI

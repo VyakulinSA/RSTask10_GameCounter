@@ -15,6 +15,8 @@ class NewGameVC: UIViewController {
     private var tableViewHeightConstraint: NSLayoutConstraint?
     let firstStart = true
     
+    var delegate: GameProcessVC?
+    
     //create cancelButton
     let cancelButton = UIButton(type: .system).createBarButton(title: "Cancel", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
     
@@ -248,9 +250,18 @@ extension NewGameVC{
     }
     
     @objc func startGameButtonTapped() {
-        let gameProcessVC = GameProcessVC()
-        gameProcessVC.modalPresentationStyle = .fullScreen
-        show(gameProcessVC, sender: nil)
+        if delegate != nil {
+            delegate?.settDataHolder()
+            delegate?.gamerCollectionView.reloadData()
+            dismiss(animated: false, completion: nil)
+        } else {
+            let gameProcessVC = GameProcessVC()
+            gameProcessVC.modalPresentationStyle = .fullScreen
+            dismiss(animated: false, completion: nil)
+            present(gameProcessVC, animated: true, completion: nil)
+        }
+        
+        
     }
 }
 
