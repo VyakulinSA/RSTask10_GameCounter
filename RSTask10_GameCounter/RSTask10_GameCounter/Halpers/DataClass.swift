@@ -15,7 +15,10 @@ class DataClass{
     
     private init() {}
     
-    var playersArray = [Player]()
+    var playersArray = [Player(name: "aaa", score: 0, select: true),
+                        Player(name: "bbb", score: 0, select: false),
+                        Player(name: "ccc", score: 0, select: false),
+                        Player(name: "ddd", score: 0, select: false)]
     var turnsArray = [Turn]()
     
     class func sharedInstance() -> DataClass {
@@ -27,7 +30,8 @@ class DataClass{
 
 struct Player {
     let name: String
-    let score: Int
+    var score: Int
+    var select: Bool
 }
 
 struct Turn {
