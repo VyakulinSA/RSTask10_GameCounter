@@ -33,6 +33,7 @@ struct Player {
     var score: Int
     var select: Bool
     let id = UUID()
+    var position: Int = 0
 }
 
 struct Turn {
