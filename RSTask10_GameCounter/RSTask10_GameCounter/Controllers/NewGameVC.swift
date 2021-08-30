@@ -14,6 +14,7 @@ class NewGameVC: UIViewController {
     private var dataHolder = DataClass.sharedInstance().playersArray
     private var tableViewHeightConstraint: NSLayoutConstraint?
     let firstStart = true
+    let defaults = UserDefaults.standard
     
     var gameProcessDelegate: GameProcessVC?
     var resultDelegate: ResultsVC?
@@ -256,17 +257,20 @@ extension NewGameVC{
             DataClass.sharedInstance().playersArray[i].score = 0
             DataClass.sharedInstance().playersArray[i].position = 0
         }
+        DataClass.sharedInstance().gameTime = GameTime(minute: 0, second: 0)
+        DataClass.sharedInstance().turnsArray = [Turn]()
+        defaults.setValue(nil, forKey: "startBackground")
         
         settDataHolder()
         
-        if resultDelegate != nil {
-            view.window?.rootViewController?.dismiss(animated: false, completion: nil)
-        }
-        if gameProcessDelegate != nil {
+//        if resultDelegate != nil {
+//            view.window?.rootViewController?.dismiss(animated: false, completion: nil)
+//        }
+        if gameProcessDelegate != nil || resultDelegate != nil {
+            gameProcessDelegate?.timer()
             gameProcessDelegate?.settDataHolder()
             gameProcessDelegate?.prepareLetterStackView()
             gameProcessDelegate?.gamerCollectionView.reloadData()
-            
             dismiss(animated: true, completion: nil)
         } else {
             let gameProcessVC = GameProcessVC()
@@ -286,27 +290,27 @@ extension NewGameVC{
 }
 
 
-//MARK: SwiftUI
-//Импортируем SwiftUI библиотеку
-import SwiftUI
-//создаем структуру
-struct PeopleVСProvider: PreviewProvider {
-    @available(iOS 13.0.0, *)
-    static var previews: some View {
-        ContainerView().edgesIgnoringSafeArea(.all)
-    }
-    
-    @available(iOS 13.0, *)
-    struct ContainerView: UIViewControllerRepresentable {
-        //создадим объект класса, который хотим показывать в Canvas
-        let tabBarVC = NewGameVC()
-        //меняем input параметры в соответствии с образцом
-        @available(iOS 13.0, *)
-        func makeUIViewController(context: UIViewControllerRepresentableContext<PeopleVСProvider.ContainerView>) -> NewGameVC {
-            return tabBarVC
-        }
-        //не пишем никакого кода
-        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        }
-    }
-}
+////MARK: SwiftUI
+////Импортируем SwiftUI библиотеку
+//import SwiftUI
+////создаем структуру
+//struct PeopleVСProvider: PreviewProvider {
+//    @available(iOS 13.0.0, *)
+//    static var previews: some View {
+//        ContainerView().edgesIgnoringSafeArea(.all)
+//    }
+//    
+//    @available(iOS 13.0, *)
+//    struct ContainerView: UIViewControllerRepresentable {
+//        //создадим объект класса, который хотим показывать в Canvas
+//        let tabBarVC = NewGameVC()
+//        //меняем input параметры в соответствии с образцом
+//        @available(iOS 13.0, *)
+//        func makeUIViewController(context: UIViewControllerRepresentableContext<PeopleVСProvider.ContainerView>) -> NewGameVC {
+//            return tabBarVC
+//        }
+//        //не пишем никакого кода
+//        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
+//        }
+//    }
+//}

@@ -207,8 +207,9 @@ extension ResultsVC{
     @objc func newGameButtonTapped(){
         let newGameVC = NewGameVC()
         newGameVC.resultDelegate = self
+        newGameVC.modalPresentationStyle = .fullScreen
+//        dismiss(animated: false, completion: nil)
         present(newGameVC, animated: true, completion: nil)
-        
     }
 }
 

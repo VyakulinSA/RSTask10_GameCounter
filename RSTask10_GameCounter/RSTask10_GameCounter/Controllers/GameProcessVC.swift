@@ -12,12 +12,35 @@ final class GameProcessVC: UIViewController {
     private var dataHolder = DataClass.sharedInstance().playersArray
     var newGame = true
     private var collectionMoved = false
+    var timerL = Timer()
+    var timerPlay = true
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "backGround")
         self.settViews()
+        timer()
         
+    }
+    
+    
+    
+    func timer(){
+        timerL.invalidate()
+        let secondString = String(DataClass.sharedInstance().gameTime.second).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.second))" : (String(DataClass.sharedInstance().gameTime.second))
+        let minuteString = String(DataClass.sharedInstance().gameTime.minute).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.minute))" : String(DataClass.sharedInstance().gameTime.minute)
+        timerLabel.text = "\(minuteString):\(secondString)"
+        timerL = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
+    }
+    @objc func tick(){
+        DataClass.sharedInstance().gameTime.second += 1
+        if DataClass.sharedInstance().gameTime.second == 60 {
+            DataClass.sharedInstance().gameTime.minute += 1
+            DataClass.sharedInstance().gameTime.second = 0
+        }
+        let secondString = String(DataClass.sharedInstance().gameTime.second).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.second))" : (String(DataClass.sharedInstance().gameTime.second))
+        let minuteString = String(DataClass.sharedInstance().gameTime.minute).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.minute))" : String(DataClass.sharedInstance().gameTime.minute)
+        timerLabel.text = "\(minuteString):\(secondString)"
     }
     
     func settDataHolder() {
@@ -52,7 +75,7 @@ final class GameProcessVC: UIViewController {
         return view
     }()
     
-    let letterStackName: UIStackView = {
+    private let letterStackName: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
         stack.spacing = 5
@@ -63,7 +86,7 @@ final class GameProcessVC: UIViewController {
         return stack
     }()
     
-    let previousButton: UIButton = {
+    private let previousButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "previous"), for: .normal)
@@ -71,11 +94,27 @@ final class GameProcessVC: UIViewController {
         return button
     }()
     
-    let nextButton: UIButton = {
+    private let nextButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
         button.setImage(UIImage(named: "next"), for: .normal)
         
+        return button
+    }()
+    
+    private let timerLabel: UILabel = {
+        let label = UILabel()
+        label.text = "05:23"
+        label.textColor = .white
+        label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private let playPauseButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(UIImage(named: "Pause"), for: .normal)
         return button
     }()
     
@@ -131,14 +170,7 @@ final class GameProcessVC: UIViewController {
         rollButton.addTarget(self, action: #selector(rollButtonTapped), for: .touchUpInside)
         
         //MARK:create timerLabel
-        let timerLabel: UILabel = {
-            let label = UILabel()
-            label.text = "05:23"
-            label.textColor = .white
-            label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28)
-            label.translatesAutoresizingMaskIntoConstraints = false
-            return label
-        }()
+
         
         self.view.addSubview(timerLabel)
         
@@ -148,16 +180,13 @@ final class GameProcessVC: UIViewController {
         ])
         
         //MARK:creeate play / pause button
-        let playPauseButton: UIButton = {
-            let button = UIButton()
-            button.translatesAutoresizingMaskIntoConstraints = false
-            button.setImage(UIImage(named: "Pause"), for: .normal)
-            return button
-        }()
+
         
         self.view.addSubview(playPauseButton)
         
         playPauseButton.anchor(top: timerLabel.topAnchor, leading: timerLabel.trailingAnchor, bottom: timerLabel.bottomAnchor, trailing: nil, padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0), size: CGSize(width: 20, height: 0))
+        
+        playPauseButton.addTarget(self, action: #selector(playPauseButtonTapped), for: .touchUpInside)
         
         //MARK:create collectionView
         
@@ -440,6 +469,18 @@ extension GameProcessVC{
         let resultVC = ResultsVC()
         present(resultVC, animated: true, completion: nil)
         
+    }
+    
+    @objc func playPauseButtonTapped() {
+        if timerPlay{
+            playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
+            timerL.invalidate()
+            timerPlay = false
+        } else {
+            playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
+            timer()
+            timerPlay = true
+        }
     }
 }
 
