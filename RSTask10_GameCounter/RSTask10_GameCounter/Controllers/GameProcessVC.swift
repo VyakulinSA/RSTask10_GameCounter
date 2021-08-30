@@ -13,13 +13,17 @@ final class GameProcessVC: UIViewController {
     var newGame = true
     private var collectionMoved = false
     var timerL = Timer()
-    var timerPlay = true
+    
+    var multiplikator: CGFloat = 1.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "backGround")
         self.settViews()
-        timer()
+        if DataClass.shared.timerPlay{
+            timer()
+        }
+        
         
     }
     
@@ -31,6 +35,7 @@ final class GameProcessVC: UIViewController {
         let minuteString = String(DataClass.sharedInstance().gameTime.minute).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.minute))" : String(DataClass.sharedInstance().gameTime.minute)
         timerLabel.text = "\(minuteString):\(secondString)"
         timerL = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
+        print("timer on")
     }
     @objc func tick(){
         DataClass.sharedInstance().gameTime.second += 1
@@ -104,7 +109,9 @@ final class GameProcessVC: UIViewController {
     
     private let timerLabel: UILabel = {
         let label = UILabel()
-        label.text = "05:23"
+        let secondString = String(DataClass.sharedInstance().gameTime.second).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.second))" : (String(DataClass.sharedInstance().gameTime.second))
+        let minuteString = String(DataClass.sharedInstance().gameTime.minute).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.minute))" : String(DataClass.sharedInstance().gameTime.minute)
+        label.text = "\(minuteString):\(secondString)"
         label.textColor = .white
         label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -114,7 +121,11 @@ final class GameProcessVC: UIViewController {
     private let playPauseButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(UIImage(named: "Pause"), for: .normal)
+        if !DataClass.sharedInstance().timerPlay{
+            button.setImage(UIImage(named: "Play"), for: .normal)
+        } else {
+            button.setImage(UIImage(named: "Pause"), for: .normal)
+        }
         return button
     }()
     
@@ -176,7 +187,7 @@ final class GameProcessVC: UIViewController {
         
         NSLayoutConstraint.activate([
             timerLabel.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
-            timerLabel.topAnchor.constraint(equalTo: gameLabel.bottomAnchor, constant: 29)
+            timerLabel.topAnchor.constraint(equalTo: gameLabel.bottomAnchor, constant: 15)
         ])
         
         //MARK:creeate play / pause button
@@ -195,16 +206,22 @@ final class GameProcessVC: UIViewController {
         self.view.addSubview(gamerCollectionView)
         
         
+        let viewHeight = self.view.frame.height //667  //884
         
+        if viewHeight<800 && viewHeight>600{
+            multiplikator = 0.8
+        }else if viewHeight<600{
+            multiplikator = 0.6
+        }
         
-        gamerCollectionView.anchor(top: timerLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 42, left: 0, bottom: 0, right: 0), size: CGSize(width: 0, height: 300))
+        gamerCollectionView.anchor(top: timerLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0), size: CGSize(width: 0, height: 300 * multiplikator))
         
         //MARK:create previous button
        
         
         self.view.addSubview(previousButton)
         
-        previousButton.anchor(top: gamerCollectionView.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 58, left: 46, bottom: 0, right: 0))
+        previousButton.anchor(top: gamerCollectionView.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 58 * multiplikator, left: 46, bottom: 0, right: 0))
         
         previousButton.addTarget(self, action: #selector(previousButtonTapped), for: .touchUpInside)
         
@@ -213,19 +230,19 @@ final class GameProcessVC: UIViewController {
         
         self.view.addSubview(nextButton)
         
-        nextButton.anchor(top: gamerCollectionView.bottomAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 58, left: 0, bottom: 0, right: 46))
+        nextButton.anchor(top: gamerCollectionView.bottomAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 58 * multiplikator, left: 0, bottom: 0, right: 46))
         
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
         //MARK:create plusOne button
-        let plusOneButton = UIButton(type: .system).createEllipseButton(title: "+1", font: UIFont(name: "Nunito-ExtraBold", size: 40)!, radius: 45, shadow: true)
+        let plusOneButton = UIButton(type: .system).createEllipseButton(title: "+1", font: UIFont(name: "Nunito-ExtraBold", size: 40 * multiplikator)!, radius: 45 * multiplikator, shadow: true)
         plusOneButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
         self.view.addSubview(plusOneButton)
         
         NSLayoutConstraint.activate([
             plusOneButton.centerXAnchor.constraint(equalTo: safeArea.centerXAnchor),
             plusOneButton.centerYAnchor.constraint(equalTo: previousButton.centerYAnchor),
-            plusOneButton.heightAnchor.constraint(equalToConstant: 90),
-            plusOneButton.widthAnchor.constraint(equalToConstant: 90)
+            plusOneButton.heightAnchor.constraint(equalToConstant: 90 * CGFloat(multiplikator)),
+            plusOneButton.widthAnchor.constraint(equalToConstant: 90 * CGFloat(multiplikator))
         ])
         
         //MARK:create plusButton stackView
@@ -240,11 +257,11 @@ final class GameProcessVC: UIViewController {
         
         self.view.addSubview(stackView)
         
-        stackView.anchor(top: plusOneButton.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20), size: CGSize(width: 0, height: 55))
+        stackView.anchor(top: plusOneButton.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 20 * multiplikator, left: 20, bottom: 0, right: 20), size: CGSize(width: 0, height: 55 * multiplikator))
         
         let numberArray = ["-10","-5","-1","+5","+10"]
         for title in numberArray {
-            let plusButton = UIButton(type: .system).createEllipseButton(title: title, font: UIFont(name: "Nunito-ExtraBold", size: 25)!, radius: 27.5, shadow: true)
+            let plusButton = UIButton(type: .system).createEllipseButton(title: title, font: UIFont(name: "Nunito-ExtraBold", size: 25 * multiplikator)!, radius: 27.5 * multiplikator, shadow: true)
             plusButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
             stackView.addArrangedSubview(plusButton)
         }
@@ -338,6 +355,7 @@ extension GameProcessVC: UICollectionViewDataSource, UICollectionViewDelegate {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "gameCell", for: indexPath)
         
         if let cell = cell as? GameCollectionViewCell {
+            cell.multiplicator = multiplikator
             cell.settLabels(name: dataHolder[indexPath.item].name, score: dataHolder[indexPath.item].score)
         }
         
@@ -351,14 +369,14 @@ extension GameProcessVC: UICollectionViewDataSource, UICollectionViewDelegate {
 extension GameProcessVC: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = 255
-        let height = 300
+        let width = 255 * multiplikator
+        let height = 300 * multiplikator
         return CGSize(width: width, height: height)
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         
-        let leftRightInsets: CGFloat = (self.view.frame.width - 255) / 2
+        let leftRightInsets: CGFloat = (self.view.frame.width - CGFloat(255 * multiplikator)) / 2
         if let layout = collectionViewLayout as? CustomCollectionViewFlowLayout{
             layout.padding = leftRightInsets
         }
@@ -422,7 +440,10 @@ extension GameProcessVC{
     @objc func newGameButtonTapped(){
         let newGameVC = NewGameVC()
         newGameVC.gameProcessDelegate = self
-        present(newGameVC, animated: true, completion: nil)
+        let navVS = UINavigationController(rootViewController: newGameVC)
+        navVS.navigationBar.isHidden = true
+        present(navVS, animated: true, completion: nil)
+//        self.present(newGameVC, animated: true, completion: nil)
         
     }
     
@@ -460,26 +481,31 @@ extension GameProcessVC{
     @objc func undoButtonTapped(){
         guard let lastTurn = DataClass.sharedInstance().turnsArray.popLast() else {return}
         DataClass.sharedInstance().playersArray[lastTurn.playersIndex.item].score -= Int(lastTurn.addScore)!
-        gamerCollectionView.selectItem(at: lastTurn.playersIndex, animated: true, scrollPosition: .centeredHorizontally)
         settDataHolder()
+        gamerCollectionView.selectItem(at: lastTurn.playersIndex, animated: true, scrollPosition: .centeredHorizontally)
+        
         
     }
     
     @objc func resultsButtonTapped(){
         let resultVC = ResultsVC()
-        present(resultVC, animated: true, completion: nil)
+        resultVC.multiplikator = multiplikator
+        resultVC.gameDelegate = self
+        let navVS = UINavigationController(rootViewController: resultVC)
+        navVS.navigationBar.isHidden = true
+        present(navVS, animated: true, completion: nil)
         
     }
     
     @objc func playPauseButtonTapped() {
-        if timerPlay{
+        if DataClass.sharedInstance().timerPlay{
             playPauseButton.setImage(UIImage(named: "Play"), for: .normal)
             timerL.invalidate()
-            timerPlay = false
+            DataClass.sharedInstance().timerPlay = false
         } else {
             playPauseButton.setImage(UIImage(named: "Pause"), for: .normal)
             timer()
-            timerPlay = true
+            DataClass.sharedInstance().timerPlay = true
         }
     }
 }

@@ -16,6 +16,9 @@ class NewGameVC: UIViewController {
     let firstStart = true
     let defaults = UserDefaults.standard
     
+    var countNewPlayers = 0
+    var deletedPlayers = [Player]()
+    
     var gameProcessDelegate: GameProcessVC?
     var resultDelegate: ResultsVC?
     
@@ -73,7 +76,7 @@ class NewGameVC: UIViewController {
         
         cancelButton.anchor(top: safeArea.topAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0))
         
-        cancelButton.isHidden = !firstStart
+        cancelButton.isHidden = !defaults.bool(forKey: "firstLaunch")
         
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
         //create label
@@ -176,7 +179,8 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            DataClass.sharedInstance().playersArray.remove(at: indexPath.row)
+            let delPlayer = DataClass.sharedInstance().playersArray.remove(at: indexPath.row)
+            deletedPlayers.append(delPlayer)
             settDataHolder()
             tableView.deleteRows(at: [indexPath], with: .left)
         default:
@@ -249,7 +253,7 @@ extension NewGameVC{
         let addPlayerVC = AddPlayerVC()
         addPlayerVC.delegate = self
         addPlayerVC.modalPresentationStyle = .pageSheet
-        show(addPlayerVC, sender: nil)
+        self.navigationController?.setViewControllers([self,addPlayerVC], animated: true)
     }
     
     @objc func startGameButtonTapped() {
@@ -259,34 +263,56 @@ extension NewGameVC{
         }
         DataClass.sharedInstance().gameTime = GameTime(minute: 0, second: 0)
         DataClass.sharedInstance().turnsArray = [Turn]()
+        DataClass.sharedInstance().timerPlay = true
+        
+        defaults.encode(for:DataClass.sharedInstance().playersArray, using: String(describing: Player.self))
+        defaults.encode(for:DataClass.sharedInstance().turnsArray, using: String(describing: Turn.self))
+        defaults.encode(for:DataClass.sharedInstance().gameTime, using: String(describing: GameTime.self))
         defaults.setValue(nil, forKey: "startBackground")
+        defaults.setValue(DataClass.sharedInstance().timerPlay, forKey: "timerPlaySaved")
+        defaults.setValue(true, forKey: "firstLaunch")
+        
+        countNewPlayers = 0
         
         settDataHolder()
         
-//        if resultDelegate != nil {
-//            view.window?.rootViewController?.dismiss(animated: false, completion: nil)
-//        }
-        if gameProcessDelegate != nil || resultDelegate != nil {
+        if resultDelegate != nil {
+            gameProcessDelegate = resultDelegate?.gameDelegate
+        }
+        if gameProcessDelegate != nil {
             gameProcessDelegate?.timer()
             gameProcessDelegate?.settDataHolder()
             gameProcessDelegate?.prepareLetterStackView()
             gameProcessDelegate?.gamerCollectionView.reloadData()
-            dismiss(animated: true, completion: nil)
+            self.dismiss(animated: true, completion: nil)
         } else {
             let gameProcessVC = GameProcessVC()
             gameProcessVC.modalPresentationStyle = .fullScreen
-            dismiss(animated: false, completion: nil)
+            dismiss(animated: true, completion: nil)
             present(gameProcessVC, animated: true, completion: nil)
         }
     }
     
     @objc func cancelButtonTapped(){
+        if countNewPlayers > 0 {
+            for _ in 0..<countNewPlayers{
+                DataClass.sharedInstance().playersArray.removeLast()
+            }
+            
+        }
+        
+        if deletedPlayers.count > 0 {
+            deletedPlayers.reverse()
+            for player in deletedPlayers {
+                DataClass.sharedInstance().playersArray.append(player)
+            }
+        }
+        
+        deletedPlayers = [Player]()
+        countNewPlayers = 0
         dismiss(animated: true, completion: nil)
     }
-    
-    func dismiss_all(view: UIView){
-        view.window!.rootViewController?.dismiss(animated: false, completion: nil)
-    }
+
 }
 
 

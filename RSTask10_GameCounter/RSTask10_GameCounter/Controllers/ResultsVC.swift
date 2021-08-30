@@ -9,9 +9,12 @@ import UIKit
 
 class ResultsVC: UIViewController {
     
+    var gameDelegate: GameProcessVC?
     var dataHolder = DataClass.sharedInstance().playersArray
     var turnsArray = DataClass.sharedInstance().turnsArray
     let rowHeight: CGFloat = 41
+    
+    var multiplikator: CGFloat = 1.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -44,7 +47,7 @@ class ResultsVC: UIViewController {
             let label = UILabel()
             label.text = "Results"
             label.textColor = .white
-            label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 36)
+            label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 36 * multiplikator)
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
@@ -74,7 +77,7 @@ class ResultsVC: UIViewController {
         
         let collectionHeight: CGFloat = (rowHeight + 15) * CGFloat(dataHolder.count) < 300 ? (rowHeight + 15) * CGFloat(dataHolder.count) : 300
         
-        collectionView.anchor(top: resultsLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20), size: CGSize(width: 0, height: collectionHeight))
+        collectionView.anchor(top: resultsLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20), size: CGSize(width: 0, height: collectionHeight * multiplikator))
         
         //createTableView
         
@@ -117,7 +120,7 @@ extension ResultsVC: UITableViewDelegate, UITableViewDataSource{
     
     //MARK: config headerView
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 50
+        return 50 * multiplikator
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
@@ -126,7 +129,7 @@ extension ResultsVC: UITableViewDelegate, UITableViewDataSource{
         let playerLabel: UILabel = {
             let label = UILabel()
             label.text = "Turns"
-            label.font = UIFont(name: CustomFonts.nunitoSemiBold.rawValue, size: 16)
+            label.font = UIFont(name: CustomFonts.nunitoSemiBold.rawValue, size: 16 * multiplikator)
             label.textColor = UIColor(red: 0.922, green: 0.922, blue: 0.961, alpha: 0.6)
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
@@ -189,7 +192,7 @@ extension ResultsVC: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width
         let height: CGFloat = rowHeight
-        return CGSize(width: width, height: height)
+        return CGSize(width: width, height: height * multiplikator)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -208,8 +211,9 @@ extension ResultsVC{
         let newGameVC = NewGameVC()
         newGameVC.resultDelegate = self
         newGameVC.modalPresentationStyle = .fullScreen
-//        dismiss(animated: false, completion: nil)
-        present(newGameVC, animated: true, completion: nil)
+        self.navigationController?.pushViewController(newGameVC, animated: true)
+        
+        
     }
 }
 

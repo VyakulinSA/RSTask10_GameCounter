@@ -21,23 +21,31 @@ class DataClass{
                         Player(name: "ddd", score: 0, select: false)]
     var turnsArray = [Turn]()
     
+    var gameTime = GameTime(minute: 0, second: 0)
+    
     class func sharedInstance() -> DataClass {
         return DataClass.shared
     }
     
+    var timerPlay = true
+    
 }
 
 
-struct Player {
+struct Player: Codable {
     let name: String
     var score: Int
     var select: Bool
-    let id = UUID()
     var position: Int = 0
 }
 
-struct Turn {
+struct Turn: Codable {
     let player: Player
     let addScore: String
     let playersIndex: IndexPath
+}
+
+struct GameTime: Codable {
+    var minute: Int
+    var second: Int
 }

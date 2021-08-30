@@ -11,6 +11,7 @@
 		3C2221D926DB6FE30006FBF2 /* DataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2221D826DB6FE30006FBF2 /* DataClass.swift */; };
 		3C2221DC26DBC0DF0006FBF2 /* UICollectionView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2221DB26DBC0DF0006FBF2 /* UICollectionView+extension.swift */; };
 		3C2221E026DBCFB20006FBF2 /* CustomCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2221DF26DBCFB20006FBF2 /* CustomCollectionViewFlowLayout.swift */; };
+		3C2221E226DD0AE30006FBF2 /* UserDefaults+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2221E126DD0AE30006FBF2 /* UserDefaults+extension.swift */; };
 		3C32358226D76E1800BE905E /* Halpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358126D76E1800BE905E /* Halpers.swift */; };
 		3C32358426D7C19D00BE905E /* icon_Sort.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3C32358326D7C19D00BE905E /* icon_Sort.svg */; };
 		3C32358826D80A8800BE905E /* AddPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358726D80A8800BE905E /* AddPlayerVC.swift */; };
@@ -37,6 +38,7 @@
 		3C2221D826DB6FE30006FBF2 /* DataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataClass.swift; sourceTree = "<group>"; };
 		3C2221DB26DBC0DF0006FBF2 /* UICollectionView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+extension.swift"; sourceTree = "<group>"; };
 		3C2221DF26DBCFB20006FBF2 /* CustomCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		3C2221E126DD0AE30006FBF2 /* UserDefaults+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+extension.swift"; sourceTree = "<group>"; };
 		3C32358126D76E1800BE905E /* Halpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Halpers.swift; sourceTree = "<group>"; };
 		3C32358326D7C19D00BE905E /* icon_Sort.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icon_Sort.svg; sourceTree = "<group>"; };
 		3C32358726D80A8800BE905E /* AddPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerVC.swift; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 				3C32358926D8114300BE905E /* UITextField+extension.swift */,
 				3C2221DB26DBC0DF0006FBF2 /* UICollectionView+extension.swift */,
 				3C2221DF26DBCFB20006FBF2 /* CustomCollectionViewFlowLayout.swift */,
+				3C2221E126DD0AE30006FBF2 /* UserDefaults+extension.swift */,
 			);
 			path = Halpers;
 			sourceTree = "<group>";
@@ -241,6 +244,7 @@
 				3C87B38C26D7042C00DB5C0F /* AppDelegate.swift in Sources */,
 				3C32358826D80A8800BE905E /* AddPlayerVC.swift in Sources */,
 				3C32358A26D8114300BE905E /* UITextField+extension.swift in Sources */,
+				3C2221E226DD0AE30006FBF2 /* UserDefaults+extension.swift in Sources */,
 				3C7BF29926DA622300D5BA10 /* GameCollectionViewCell.swift in Sources */,
 				3C2221E026DBCFB20006FBF2 /* CustomCollectionViewFlowLayout.swift in Sources */,
 				3C87B38826D7042C00DB5C0F /* UIButton+extension.swift in Sources */,

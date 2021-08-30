@@ -11,16 +11,44 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
     var window: UIWindow?
+    let defaults = UserDefaults.standard
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
-        window = UIWindow()
+        defaults.setValue(nil, forKey: "startBackground")
         
-        let rootVC = NewGameVC()
-        window?.rootViewController = rootVC
-        window?.makeKeyAndVisible()
+        if #available(iOS 13, *){
+            return true
+        }else {
+            let rootVC: UINavigationController?
+            
+            if defaults.bool(forKey: "firstLaunch") == false {
+                rootVC = UINavigationController(rootViewController: NewGameVC())
+                rootVC?.navigationBar.isHidden = true
+            } else{
+                let playersArray = defaults.decode(for: [Player].self, using: String(describing: Player.self))
+                let turnsArray = defaults.decode(for: [Turn].self, using: String(describing: Turn.self))
+                let gameTime = defaults.decode(for: GameTime.self, using: String(describing: GameTime.self))
+                let timerPlay = defaults.bool(forKey: "timerPlaySaved")
+                
+                DataClass.sharedInstance().playersArray = playersArray ?? [Player]()
+                DataClass.sharedInstance().turnsArray = turnsArray ?? [Turn]()
+                DataClass.sharedInstance().gameTime = gameTime ?? GameTime(minute: 0, second: 0 )
+                DataClass.sharedInstance().timerPlay = timerPlay
+                
+                
+                rootVC = UINavigationController(rootViewController: GameProcessVC())
+                rootVC?.navigationBar.isHidden = true
+            }
+            
+            
+            window = UIWindow()
+            window?.rootViewController = rootVC
+            window?.makeKeyAndVisible()
+            
+            return true
+        }
         
-        return true
     }
 
     // MARK: UISceneSession Lifecycle
@@ -38,6 +66,31 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // If any sessions were discarded while the application was not running, this will be called shortly after application:didFinishLaunchingWithOptions.
         // Use this method to release any resources that were specific to the discarded scenes, as they will not return.
     }
+    
+    func applicationWillEnterForeground(_ application: UIApplication) {
+        print("появился на экране")
+        guard let start = defaults.object(forKey: "startBackground") as? CFAbsoluteTime else {return}
+        
+        let elapsed = Int(CFAbsoluteTimeGetCurrent() - start)
+        let minute =  Int(elapsed / 60)
+        let seconds = elapsed % 60
+        DataClass.sharedInstance().gameTime.second += seconds
+        DataClass.sharedInstance().gameTime.minute += minute
+    }
+    
+
+    func applicationDidEnterBackground(_ application: UIApplication) {
+        print("ушел в диспетчер задач")
+        let start = CFAbsoluteTimeGetCurrent()
+        defaults.setValue(start, forKey: "startBackground")
+
+        UserDefaults.standard.encode(for:DataClass.sharedInstance().playersArray, using: String(describing: Player.self))
+        UserDefaults.standard.encode(for:DataClass.sharedInstance().turnsArray, using: String(describing: Turn.self))
+        UserDefaults.standard.encode(for:DataClass.sharedInstance().gameTime, using: String(describing: GameTime.self))
+        defaults.setValue(DataClass.sharedInstance().timerPlay, forKey: "timerPlaySaved")
+    }
+    
+    
     
     
 

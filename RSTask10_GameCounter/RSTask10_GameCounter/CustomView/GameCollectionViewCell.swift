@@ -9,6 +9,8 @@ import UIKit
 
 class GameCollectionViewCell: UICollectionViewCell {
     
+    var multiplicator: CGFloat = 1.0
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         self.backgroundColor = UIColor(named: "elemBack")
@@ -24,7 +26,7 @@ class GameCollectionViewCell: UICollectionViewCell {
     let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "nameColor")
-        label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28)
+//        label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -32,7 +34,7 @@ class GameCollectionViewCell: UICollectionViewCell {
     private let scoreLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-        label.font = UIFont(name: CustomFonts.nunitoBold.rawValue, size: 100)
+//        label.font = UIFont(name: CustomFonts.nunitoBold.rawValue, size: 100)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -51,11 +53,15 @@ class GameCollectionViewCell: UICollectionViewCell {
             scoreLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             scoreLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
+        
+
     }
     
     func settLabels(name: String, score: Int){
         self.nameLabel.text = name
         self.scoreLabel.text = String(score)
+        self.nameLabel.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28 * multiplicator)
+        self.scoreLabel.font = UIFont(name: CustomFonts.nunitoBold.rawValue, size: 100 * multiplicator)
     }
     
 }
