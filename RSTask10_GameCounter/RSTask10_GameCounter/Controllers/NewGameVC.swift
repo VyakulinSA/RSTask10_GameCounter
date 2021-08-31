@@ -11,18 +11,25 @@ class NewGameVC: UIViewController {
     
     private let startButtonHeight: CGFloat = 65
     private let tableRowHeight: CGFloat = 41
-    var dataHolder = DataClass.sharedInstance().playersArray
     private var tableViewHeightConstraint: NSLayoutConstraint?
-    let firstStart = true
+    
+    var dataHolder = DataClass.sharedInstance().playersArray
+    
     let defaults = UserDefaults.standard
     
     var gameProcessDelegate: GameProcessVC?
     var resultDelegate: ResultsVC?
     
-    //create cancelButton
-    let cancelButton = UIButton(type: .system).createBarButton(title: "Cancel", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.view.backgroundColor = UIColor(named: "backGround")
+        settViews()
+    }
     
-    //create tableView with players
+    //MARK: create cancelButton
+    let cancelButton = UIButton(type: .system).createBarButton(title: "Cancel", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
+
+    //MARK: create tableView with players
     lazy var playersTableView: UITableView = {
         let table = UITableView()
         table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
@@ -37,7 +44,7 @@ class NewGameVC: UIViewController {
         
     }()
     
-    //create startGameButton
+    //MARK: create startGameButton
     private let startGameButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Start game", for: .normal)
@@ -60,23 +67,18 @@ class NewGameVC: UIViewController {
         return button
     }()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "backGround")
-        settViews()
-    }
     
+    //MARK: settViews
     func settViews(){
         let safeArea = self.view.safeAreaLayoutGuide
-        
+        //MARK: config cancelButton
         self.view.addSubview(cancelButton)
         
         cancelButton.anchor(top: safeArea.topAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0))
-        
         cancelButton.isHidden = !defaults.bool(forKey: "firstLaunch")
-        
         cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
-        //create label
+        
+        //MARK: config gameCounterLabel
         let gameCounterLabel: UILabel = {
             let label = UILabel()
             label.text = "Game Counter"
@@ -90,18 +92,15 @@ class NewGameVC: UIViewController {
         
         gameCounterLabel.anchor(top: cancelButton.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 20))
         
-        //config startGameButton
+        //MARK: config startGameButton
         self.view.addSubview(startGameButton)
         
         startGameButton.layer.cornerRadius = startButtonHeight / 2
         startGameButton.onOffButton(enable: dataHolder.count != 0)
-        
         startGameButton.anchor(top: nil, leading: safeArea.leadingAnchor, bottom: self.view.bottomAnchor, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 20, bottom: 65, right: 20), size: CGSize(width: 0, height: startButtonHeight))
-        
         startGameButton.addTarget(self, action: #selector(startGameButtonTapped), for: .touchUpInside)
 
-        //config tableView with players
-
+        //MARK: config tableView with players
         self.view.addSubview(playersTableView)
         
         playersTableView.anchor(top: gameCounterLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 25, left: 20, bottom: 0, right: 20))
@@ -114,14 +113,9 @@ class NewGameVC: UIViewController {
         bottomConstraint.priority = UILayoutPriority(rawValue: 249)
         bottomConstraint.isActive = true
     }
-    
-    func settDataHolder() {
-//        dataHolder = DataClass.sharedInstance().playersArray
-        tableViewHeightConstraint?.constant = 120 + tableRowHeight * CGFloat(dataHolder.count)
-        startGameButton.onOffButton(enable: dataHolder.count != 0)
-    }
 }
 
+//MARK: UITableViewDelegate, UITableViewDataSource
 extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
         
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -148,28 +142,9 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
     
     //MARK: config cell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
-        cell.selectionStyle = .none
-        cell.backgroundColor = UIColor(named: "elemBack")
+        var cell = tableView.dequeueReusableCell(withIdentifier: "cell", for: indexPath)
+        cell = configCell(cellForConfig: cell)
         cell.textLabel?.text = dataHolder[indexPath.row].name
-        cell.textLabel?.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 20)
-        cell.textLabel?.textColor = .white
-        //FIXME: change image on code
-        let sortIcon = UIImageView(image: UIImage(named: "icon_Sort"))
-        sortIcon.translatesAutoresizingMaskIntoConstraints = false
-        cell.addSubview(sortIcon)
-        
-        NSLayoutConstraint.activate([
-            sortIcon.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -15),
-            sortIcon.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
-        ])
-        
-        let seporator = UIView(frame: CGRect(x: 0, y: 0, width: cell.frame.width - 16, height: 1))
-        seporator.backgroundColor = UIColor(named: "seporator")
-        seporator.translatesAutoresizingMaskIntoConstraints = false
-        cell.addSubview(seporator)
-        
-        seporator.anchor(top: nil, leading: cell.leadingAnchor, bottom: cell.bottomAnchor, trailing: cell.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0), size: CGSize(width: 0, height: 1))
         return cell
     }
     
@@ -177,7 +152,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
         switch editingStyle {
         case .delete:
             dataHolder.remove(at: indexPath.row)
-            settDataHolder()
+            refreshConstraint()
             tableView.deleteRows(at: [indexPath], with: .left)
         default:
             return
@@ -185,6 +160,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
     }
   
 }
+
 //MARK: config headerView and footerView
 extension NewGameVC{
     //config headerView
@@ -242,7 +218,7 @@ extension NewGameVC{
     }
 }
 
-//MARK: addTarget func
+//MARK: Target
 extension NewGameVC{
     
     @objc func addButtonTapped(){
@@ -253,31 +229,22 @@ extension NewGameVC{
     }
     
     @objc func startGameButtonTapped() {
-        DataClass.sharedInstance().playersArray = dataHolder
-        for i in 0..<DataClass.sharedInstance().playersArray.count{
-            DataClass.sharedInstance().playersArray[i].score = 0
-            DataClass.sharedInstance().playersArray[i].position = 0
-        }
-        DataClass.sharedInstance().gameTime = GameTime(minute: 0, second: 0)
-        DataClass.sharedInstance().turnsArray = [Turn]()
-        DataClass.sharedInstance().timerPlay = true
+        let halpersClass = Halpers()
         
-        defaults.encode(for:DataClass.sharedInstance().playersArray, using: String(describing: Player.self))
-        defaults.encode(for:DataClass.sharedInstance().turnsArray, using: String(describing: Turn.self))
-        defaults.encode(for:DataClass.sharedInstance().gameTime, using: String(describing: GameTime.self))
-        defaults.setValue(nil, forKey: "startBackground")
-        defaults.setValue(DataClass.sharedInstance().timerPlay, forKey: "timerPlaySaved")
+        settParamsForNewGame()
+        halpersClass.saveDataInUserDefaults(valueForStartBackground: nil)
         defaults.setValue(true, forKey: "firstLaunch")
         
-        settDataHolder()
+        refreshConstraint()
         
         if resultDelegate != nil {
             gameProcessDelegate = resultDelegate?.gameDelegate
         }
+        
         if gameProcessDelegate != nil {
             gameProcessDelegate?.timer()
-            gameProcessDelegate?.settDataHolder()
-            gameProcessDelegate?.prepareLetterStackView()
+            gameProcessDelegate?.settDataFromGame()
+            gameProcessDelegate?.settLetterStackView(withRefresh: true)
             gameProcessDelegate?.gamerCollectionView.reloadData()
             self.dismiss(animated: true, completion: nil)
         } else {
@@ -292,6 +259,54 @@ extension NewGameVC{
         dismiss(animated: true, completion: nil)
     }
 
+}
+
+//MARK: Halpers func
+extension NewGameVC {
+    
+    func refreshConstraint() {
+        tableViewHeightConstraint?.constant = 120 + tableRowHeight * CGFloat(dataHolder.count)
+        startGameButton.onOffButton(enable: dataHolder.count != 0)
+    }
+    
+    private func configCell(cellForConfig: UITableViewCell) -> UITableViewCell{
+        let cell = cellForConfig
+        cell.selectionStyle = .none
+        cell.backgroundColor = UIColor(named: "elemBack")
+        
+        cell.textLabel?.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 20)
+        cell.textLabel?.textColor = .white
+        //FIXME: change image on code
+        let sortIcon = UIImageView(image: UIImage(named: "icon_Sort"))
+        sortIcon.translatesAutoresizingMaskIntoConstraints = false
+        cell.addSubview(sortIcon)
+        
+        NSLayoutConstraint.activate([
+            sortIcon.trailingAnchor.constraint(equalTo: cell.trailingAnchor, constant: -15),
+            sortIcon.centerYAnchor.constraint(equalTo: cell.centerYAnchor)
+        ])
+        
+        let seporator = UIView(frame: CGRect(x: 0, y: 0, width: cell.frame.width - 16, height: 1))
+        seporator.backgroundColor = UIColor(named: "seporator")
+        seporator.translatesAutoresizingMaskIntoConstraints = false
+        cell.addSubview(seporator)
+        
+        seporator.anchor(top: nil, leading: cell.leadingAnchor, bottom: cell.bottomAnchor, trailing: cell.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0), size: CGSize(width: 0, height: 1))
+        
+        return cell
+    }
+    
+    private func settParamsForNewGame(){
+        DataClass.sharedInstance().playersArray = dataHolder
+        DataClass.sharedInstance().gameTime = GameTime(minute: 0, second: 0)
+        DataClass.sharedInstance().turnsArray = [Turn]()
+        DataClass.sharedInstance().timerPlay = true
+        
+        for i in 0..<DataClass.sharedInstance().playersArray.count{
+            DataClass.sharedInstance().playersArray[i].score = 0
+            DataClass.sharedInstance().playersArray[i].position = 0
+        }
+    }
 }
 
 

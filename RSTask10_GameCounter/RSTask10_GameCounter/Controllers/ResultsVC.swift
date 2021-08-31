@@ -10,23 +10,23 @@ import UIKit
 class ResultsVC: UIViewController {
     
     var gameDelegate: GameProcessVC?
-    var dataHolder = DataClass.sharedInstance().playersArray
-    var turnsArray = DataClass.sharedInstance().turnsArray
-    let rowHeight: CGFloat = 41
     
+    private var dataHolder = DataClass.sharedInstance().playersArray
+    private var turnsArray = DataClass.sharedInstance().turnsArray
+    
+    private let rowHeight: CGFloat = 41
     var multiplikator: CGFloat = 1.0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "backGround")
         self.settViews()
-        
     }
     
     private func settViews(){
         let safeArea = self.view.safeAreaLayoutGuide
         
-        //create cancelButton
+        //MARK: create cancelButton
         let newGameButton = UIButton(type: .system).createBarButton(title: "New Game", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
         
         self.view.addSubview(newGameButton)
@@ -34,7 +34,8 @@ class ResultsVC: UIViewController {
         newGameButton.anchor(top: safeArea.topAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0))
         
         newGameButton.addTarget(self, action: #selector(newGameButtonTapped), for: .touchUpInside)
-        //create addlButton
+        
+        //MARK: create addlButton
         let resumeButton = UIButton(type: .system).createBarButton(title: "Resume", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
         
         self.view.addSubview(resumeButton)
@@ -42,7 +43,8 @@ class ResultsVC: UIViewController {
         resumeButton.anchor(top: safeArea.topAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 25))
         
         resumeButton.addTarget(self, action: #selector(resumeButtonTapped), for: .touchUpInside)
-        //create gamelabel
+        
+        //MARK: create gamelabel
         let resultsLabel: UILabel = {
             let label = UILabel()
             label.text = "Results"
@@ -55,9 +57,8 @@ class ResultsVC: UIViewController {
         self.view.addSubview(resultsLabel)
         
         resultsLabel.anchor(top: newGameButton.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 200))
-        
-        
-        //create collectionView
+
+        //MARK: create collectionView
         
         let collectionView: UICollectionView = {
             let layout = UICollectionViewFlowLayout()
@@ -79,7 +80,7 @@ class ResultsVC: UIViewController {
         
         collectionView.anchor(top: resultsLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20), size: CGSize(width: 0, height: collectionHeight * multiplikator))
         
-        //createTableView
+        //MARK: createTableView
         
         let resultsTableView: UITableView = {
             let table = UITableView(frame: .zero, style: .grouped)
@@ -96,12 +97,11 @@ class ResultsVC: UIViewController {
         self.view.addSubview(resultsTableView)
         
         resultsTableView.anchor(top: collectionView.bottomAnchor, leading: safeArea.leadingAnchor, bottom: self.view.bottomAnchor, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 10, left: 20, bottom: 20, right: 20))
-        
     }
     
 }
 
-//MARK: Table
+//MARK: UITableViewDelegate, UITableViewDataSource
 
 extension ResultsVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -144,7 +144,7 @@ extension ResultsVC: UITableViewDelegate, UITableViewDataSource{
     
 }
 
-//MARK: Collection
+//MARK: UICollectionViewDelegate, UICollectionViewDataSource
 
 extension ResultsVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -154,31 +154,7 @@ extension ResultsVC: UICollectionViewDelegate, UICollectionViewDataSource{
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "resultCell", for: indexPath) as! ResultCollectionViewCell
         
-        var filteredPlayers = dataHolder.sorted { pl1, pl2 in
-            pl1.name < pl2.name
-        }
-        
-        filteredPlayers.sort { pl1, pl2 in
-            pl1.score > pl2.score
-        }
-        
-        var score = 0
-        var position = 1
-        for i in 0..<filteredPlayers.count{
-            if i == 0{
-                score = filteredPlayers[i].score
-                filteredPlayers[i].position = position
-                continue
-            }
-            if filteredPlayers[i].score == score{
-                filteredPlayers[i].position = position
-            }else {
-                score = filteredPlayers[i].score
-                position += 1
-                filteredPlayers[i].position = position
-            }
-        }
-        
+        let filteredPlayers = settScoreAndPositionPlayers(playersArray: filteredPlayers(playersArray: dataHolder))
         
         cell.settLabels(position: filteredPlayers[indexPath.item].position, name: filteredPlayers[indexPath.item].name, score: filteredPlayers[indexPath.item].score)
         return cell
@@ -212,9 +188,41 @@ extension ResultsVC{
         newGameVC.resultDelegate = self
         newGameVC.modalPresentationStyle = .fullScreen
         self.navigationController?.pushViewController(newGameVC, animated: true)
-        
-        
     }
+}
+
+//MARK: Halpers func
+extension ResultsVC {
+    
+    private func filteredPlayers(playersArray: [Player])->[Player]{
+        var filteredPlayers = playersArray.sorted { $0.name < $1.name }
+        filteredPlayers.sort { $0.score > $1.score}
+        return filteredPlayers
+    }
+    
+    private func settScoreAndPositionPlayers(playersArray: [Player])->[Player]{
+        var score = 0
+        var position = 1
+        
+        var array = playersArray
+        
+        for i in 0..<playersArray.count{
+            if i == 0{
+                score = playersArray[i].score
+                array[i].position = position
+                continue
+            }
+            if playersArray[i].score == score{
+                array[i].position = position
+            }else {
+                score = playersArray[i].score
+                position += 1
+                array[i].position = position
+            }
+        }
+        return array
+    }
+    
 }
 
 

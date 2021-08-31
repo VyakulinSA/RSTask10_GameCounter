@@ -8,14 +8,13 @@
 import Foundation
 import UIKit
 
-//расширение для удобной работы с констрейнтами через код (используя функции из данного расширения)
+
 extension UIView {
-    //отвечает за расположение(заполнение) определенной view на другой superView
+    
     func fillSuperview(padding: UIEdgeInsets) {
         anchor(top: superview?.topAnchor, leading: superview?.leadingAnchor, bottom: superview?.bottomAnchor, trailing: superview?.trailingAnchor, padding: padding)
     }
     
-    //функция для размещения view полностью по размеру superView
     func fillSuperview() {
         fillSuperview(padding: .zero)
     }
@@ -25,7 +24,6 @@ extension UIView {
         heightAnchor.constraint(equalTo: view.heightAnchor).isActive = true
     }
     
-    //функция для которой указываешь, куда закрепить и на сколько отсутпы
     func anchor(top: NSLayoutYAxisAnchor?, leading: NSLayoutXAxisAnchor?, bottom: NSLayoutYAxisAnchor?, trailing: NSLayoutXAxisAnchor?, padding: UIEdgeInsets = .zero, size: CGSize = .zero) {
         
         if let top = top {

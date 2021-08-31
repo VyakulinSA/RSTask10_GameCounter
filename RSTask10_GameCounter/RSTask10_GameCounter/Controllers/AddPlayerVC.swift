@@ -27,7 +27,6 @@ class AddPlayerVC: UIViewController {
         textField.backgroundColor = UIColor(named: "elemBack")
         textField.textColor = .white
         textField.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 20)
-        //FIXME: прочитать про настройку PlaceHolder
         let attributes = [
             NSAttributedString.Key.foregroundColor: UIColor(red: 0.608, green: 0.608, blue: 0.631, alpha: 1),
             NSAttributedString.Key.font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 20)
@@ -49,7 +48,6 @@ class AddPlayerVC: UIViewController {
         self.view.addSubview(backButton)
         
         backButton.anchor(top: safeArea.topAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0))
-        
         backButton.addTarget(self, action: #selector(backButtonTapped), for: .touchUpInside)
         
         //create label
@@ -72,7 +70,6 @@ class AddPlayerVC: UIViewController {
         self.view.addSubview(addButton)
         
         addButton.anchor(top: safeArea.topAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 25))
-        
         addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
 
         //config textField Player Name
@@ -82,7 +79,6 @@ class AddPlayerVC: UIViewController {
         
         playerNameTF.becomeFirstResponder()
         playerNameTF.delegate = self
-        
         playerNameTF.addTarget(self, action: #selector(textFieldChange), for: .editingChanged)
 
     }
@@ -108,7 +104,7 @@ extension AddPlayerVC {
     @objc func addButtonTapped() {
         let newPlayer = playerNameTF.text!
         delegate?.dataHolder.append(Player(name: newPlayer, score: 0, select: dataHolder.count == 0))
-        delegate?.settDataHolder()
+        delegate?.refreshConstraint()
         delegate?.playersTableView.reloadData()
         self.navigationController?.popViewController(animated: true)
         

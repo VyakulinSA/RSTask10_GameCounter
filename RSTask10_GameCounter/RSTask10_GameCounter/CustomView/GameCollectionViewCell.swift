@@ -23,10 +23,9 @@ class GameCollectionViewCell: UICollectionViewCell {
         settViews()
     }
     
-    let nameLabel: UILabel = {
+    private let nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = UIColor(named: "nameColor")
-//        label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -34,7 +33,6 @@ class GameCollectionViewCell: UICollectionViewCell {
     private let scoreLabel: UILabel = {
         let label = UILabel()
         label.textColor = .white
-//        label.font = UIFont(name: CustomFonts.nunitoBold.rawValue, size: 100)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

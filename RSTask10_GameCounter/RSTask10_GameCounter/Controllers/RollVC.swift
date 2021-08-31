@@ -12,18 +12,14 @@ class RollVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         addBlurEffect()
-        let random = Int.random(in: 1...6)
-        showDice(randomNumber: random)
+        showDice()
         
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(dismissRollVC))
         self.view.addGestureRecognizer(recognizer)
         
         AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
-    }
-    
-    @objc func dismissRollVC() {
-        dismiss(animated: true, completion: nil)
     }
     
     private func addBlurEffect(){
@@ -35,7 +31,8 @@ class RollVC: UIViewController {
         self.view.addSubview(blurEffectView)
     }
     
-    private func showDice(randomNumber: Int){
+    private func showDice(){
+        let randomNumber = Int.random(in: 1...6)
         let imageName = "dice_\(randomNumber)"
         
         let diceImageView: UIImageView = {
@@ -55,7 +52,9 @@ class RollVC: UIViewController {
         ])
     }
     
-
+    @objc func dismissRollVC() {
+        dismiss(animated: true, completion: nil)
+    }
 
 }
 

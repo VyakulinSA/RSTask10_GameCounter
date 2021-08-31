@@ -10,16 +10,14 @@ import UIKit
 final class GameProcessVC: UIViewController {
     
     private var dataHolder = DataClass.sharedInstance().playersArray
-    var newGame = true
-    private var collectionMoved = false
-    var timerL = Timer()
-    
-    var multiplikator: CGFloat = 1.0
+    private var timerL = Timer()
+    private var multiplikator: CGFloat = 1.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
         self.view.backgroundColor = UIColor(named: "backGround")
         self.settViews()
+        
         if DataClass.shared.timerPlay{
             timer()
         }
@@ -29,52 +27,7 @@ final class GameProcessVC: UIViewController {
         selectItemAfterResume()
     }
     
-    func selectItemAfterResume(){
-        for i in 0..<DataClass.sharedInstance().playersArray.count{
-            if DataClass.sharedInstance().playersArray[i].select == true{
-                gamerCollectionView.selectItem(at: DataClass.sharedInstance().playersArray[i].playersIndex, animated: true, scrollPosition: .centeredHorizontally)
-
-            }
-        }
-    }
-    
-    
-    
-    func timer(){
-        timerL.invalidate()
-        let secondString = String(DataClass.sharedInstance().gameTime.second).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.second))" : (String(DataClass.sharedInstance().gameTime.second))
-        let minuteString = String(DataClass.sharedInstance().gameTime.minute).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.minute))" : String(DataClass.sharedInstance().gameTime.minute)
-        timerLabel.text = "\(minuteString):\(secondString)"
-        timerL = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
-        RunLoop.current.add(timerL, forMode: .common)
-        print("timer on")
-    }
-    @objc func tick(){
-        DataClass.sharedInstance().gameTime.second += 1
-        if DataClass.sharedInstance().gameTime.second == 60 {
-            DataClass.sharedInstance().gameTime.minute += 1
-            DataClass.sharedInstance().gameTime.second = 0
-        }
-        let secondString = String(DataClass.sharedInstance().gameTime.second).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.second))" : (String(DataClass.sharedInstance().gameTime.second))
-        let minuteString = String(DataClass.sharedInstance().gameTime.minute).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.minute))" : String(DataClass.sharedInstance().gameTime.minute)
-        timerLabel.text = "\(minuteString):\(secondString)"
-    }
-    
-    func settDataHolder() {
-        dataHolder = DataClass.sharedInstance().playersArray
-        gamerCollectionView.selectItem(at: IndexPath(indexes: [0,0]), animated: true, scrollPosition: .centeredHorizontally)
-        gamerCollectionView.reloadData()
-    }
-    
-    func prepareLetterStackView() {
-        let arangedSubviews = letterStackName.arrangedSubviews
-        for view in arangedSubviews{
-            letterStackName.removeArrangedSubview(view)
-            view.removeFromSuperview()
-        }
-        settLetterStackView()
-    }
-    
+    //MARK: create gamerCollectionView
     lazy var gamerCollectionView: UICollectionView = {
         let layout = CustomCollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -92,6 +45,7 @@ final class GameProcessVC: UIViewController {
         return view
     }()
     
+    //MARK: create letterStackName
     private let letterStackName: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -103,6 +57,7 @@ final class GameProcessVC: UIViewController {
         return stack
     }()
     
+    //MARK: create previousButton
     private let previousButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -111,6 +66,7 @@ final class GameProcessVC: UIViewController {
         return button
     }()
     
+    //MARK: create nextButton
     private let nextButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -119,10 +75,12 @@ final class GameProcessVC: UIViewController {
         return button
     }()
     
+    //MARK: create timerLabel
     private let timerLabel: UILabel = {
         let label = UILabel()
-        let secondString = String(DataClass.sharedInstance().gameTime.second).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.second))" : (String(DataClass.sharedInstance().gameTime.second))
-        let minuteString = String(DataClass.sharedInstance().gameTime.minute).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.minute))" : String(DataClass.sharedInstance().gameTime.minute)
+        let gameTime = DataClass.sharedInstance().gameTime
+        let secondString = String(gameTime.second).count < 2 ? "0\(String(gameTime.second))" : (String(gameTime.second))
+        let minuteString = String(gameTime.minute).count < 2 ? "0\(String(gameTime.minute))" : String(gameTime.minute)
         label.text = "\(minuteString):\(secondString)"
         label.textColor = .white
         label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28)
@@ -130,6 +88,7 @@ final class GameProcessVC: UIViewController {
         return label
     }()
     
+    //MARK: create playPauseButton
     private let playPauseButton: UIButton = {
         let button = UIButton()
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -141,9 +100,10 @@ final class GameProcessVC: UIViewController {
         return button
     }()
     
-    
+    //MARK: settViews
     private func settViews(){
         let safeArea = self.view.safeAreaLayoutGuide
+        settMultiplicator()
         
         //MARK:create newGameButton
         let newGameButton = UIButton(type: .system).createBarButton(title: "New Game", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
@@ -151,16 +111,16 @@ final class GameProcessVC: UIViewController {
         self.view.addSubview(newGameButton)
         
         newGameButton.anchor(top: safeArea.topAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0))
-        
         newGameButton.addTarget(self, action: #selector(newGameButtonTapped), for: .touchUpInside)
+        
         //MARK:create resultsButton
         let resultsButton = UIButton(type: .system).createBarButton(title: "Results", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
         
         self.view.addSubview(resultsButton)
         
         resultsButton.anchor(top: safeArea.topAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 25))
-        
         resultsButton.addTarget(self, action: #selector(resultsButtonTapped), for: .touchUpInside)
+        
         //MARK:create gamelabel
         let gameLabel: UILabel = {
             let label = UILabel()
@@ -189,12 +149,9 @@ final class GameProcessVC: UIViewController {
         
         rollButton.anchor(top: nil, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 20), size: CGSize(width: 30, height: 30))
         rollButton.centerYAnchor.constraint(equalTo: gameLabel.centerYAnchor).isActive = true
-        
         rollButton.addTarget(self, action: #selector(rollButtonTapped), for: .touchUpInside)
         
-        //MARK:create timerLabel
-
-        
+        //MARK:config timerLabel
         self.view.addSubview(timerLabel)
         
         NSLayoutConstraint.activate([
@@ -202,50 +159,32 @@ final class GameProcessVC: UIViewController {
             timerLabel.topAnchor.constraint(equalTo: gameLabel.bottomAnchor, constant: 15)
         ])
         
-        //MARK:creeate play / pause button
-
-        
+        //MARK:config play / pause button
         self.view.addSubview(playPauseButton)
         
         playPauseButton.anchor(top: timerLabel.topAnchor, leading: timerLabel.trailingAnchor, bottom: timerLabel.bottomAnchor, trailing: nil, padding: UIEdgeInsets(top: 0, left: 20, bottom: 0, right: 0), size: CGSize(width: 20, height: 0))
-        
         playPauseButton.addTarget(self, action: #selector(playPauseButtonTapped), for: .touchUpInside)
         
-        //MARK:create collectionView
-        
-        
-        
+        //MARK:config collectionView
         self.view.addSubview(gamerCollectionView)
-        
-        
-        let viewHeight = self.view.frame.height //667  //884
-        
-        if viewHeight<800 && viewHeight>600{
-            multiplikator = 0.8
-        }else if viewHeight<600{
-            multiplikator = 0.6
-        }
         
         gamerCollectionView.anchor(top: timerLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 0, bottom: 0, right: 0), size: CGSize(width: 0, height: 300 * multiplikator))
         
-        //MARK:create previous button
-       
-        
+        //MARK:config previous button
         self.view.addSubview(previousButton)
         
         previousButton.anchor(top: gamerCollectionView.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 58 * multiplikator, left: 46, bottom: 0, right: 0))
         
         previousButton.addTarget(self, action: #selector(previousButtonTapped), for: .touchUpInside)
         
-        //MARK:create next button
-        
-        
+        //MARK:config next button
         self.view.addSubview(nextButton)
         
         nextButton.anchor(top: gamerCollectionView.bottomAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 58 * multiplikator, left: 0, bottom: 0, right: 46))
-        
         nextButton.addTarget(self, action: #selector(nextButtonTapped), for: .touchUpInside)
+        
         //MARK:create plusOne button
+        
         let plusOneButton = UIButton(type: .system).createEllipseButton(title: "+1", font: UIFont(name: "Nunito-ExtraBold", size: 40 * multiplikator)!, radius: 45 * multiplikator, shadow: true)
         plusOneButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
         self.view.addSubview(plusOneButton)
@@ -279,8 +218,7 @@ final class GameProcessVC: UIViewController {
         }
         
         
-        //MARK: create firstLetterForName stackView
-        
+        //MARK: config firstLetterForName stackView
         self.view.addSubview(letterStackName)
 
         NSLayoutConstraint.activate([
@@ -289,9 +227,8 @@ final class GameProcessVC: UIViewController {
             letterStackName.heightAnchor.constraint(equalToConstant: 27),
         ])
         
-        settLetterStackView()
-        
-        
+        settLetterStackView(withRefresh: false)
+
         //FIXME: сделать стэк без костылей
         //MARK:create support views for stackView
         let cust = UIView()
@@ -321,37 +258,11 @@ final class GameProcessVC: UIViewController {
         self.view.addSubview(undoButton)
         
         undoButton.anchor(top: nil, leading: safeArea.leadingAnchor, bottom: self.view.bottomAnchor, trailing: nil, padding: UIEdgeInsets(top: 0, left: 40, bottom: 32, right: 0))
-        
         undoButton.addTarget(self, action: #selector(undoButtonTapped), for: .touchUpInside)
     }
-    
-
-    
-    private func getCollectionItemIndexOnScreen() -> Int?{
-        guard let indexPathOnScreen = gamerCollectionView.indexPathForItem(at: self.view.convert(self.view.center, to: gamerCollectionView)) else {return nil}
-        let indexCenter = indexPathOnScreen.item
-        return indexCenter
-    }
-    
-    func settLetterStackView(){
-        for i in 0..<dataHolder.count {
-            let firstLetter = dataHolder[i].name.first!.uppercased()
-            let label = UILabel()
-            label.text = firstLetter
-            label.font = UIFont(name: "Nunito-ExtraBold", size: 20)
-            if i == 0{
-                label.textColor = .white
-            }else {
-                label.textColor = UIColor(named: "elemBack")
-            }
-            letterStackName.addArrangedSubview(label)
-        }
-    }
-
 }
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
-
 extension GameProcessVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
@@ -365,7 +276,6 @@ extension GameProcessVC: UICollectionViewDataSource, UICollectionViewDelegate {
             cell.multiplicator = multiplikator
             cell.settLabels(name: dataHolder[indexPath.item].name, score: dataHolder[indexPath.item].score)
         }
-        
         return cell
     }
     
@@ -373,7 +283,6 @@ extension GameProcessVC: UICollectionViewDataSource, UICollectionViewDelegate {
 }
 
 // MARK: - UICollectionViewDelegateFlowLayout
-
 extension GameProcessVC: UICollectionViewDelegateFlowLayout {
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -383,13 +292,12 @@ extension GameProcessVC: UICollectionViewDelegateFlowLayout {
     }
 
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        
         let leftRightInsets: CGFloat = (self.view.frame.width - CGFloat(255 * multiplikator)) / 2
+        
         if let layout = collectionViewLayout as? CustomCollectionViewFlowLayout{
             layout.padding = leftRightInsets
         }
-        
-         let sectionInsets: UIEdgeInsets = .init(top: 0, left: leftRightInsets, bottom: 0, right: leftRightInsets)
+        let sectionInsets: UIEdgeInsets = .init(top: 0, left: leftRightInsets, bottom: 0, right: leftRightInsets)
         return sectionInsets
     }
 
@@ -399,6 +307,7 @@ extension GameProcessVC: UICollectionViewDelegateFlowLayout {
     
 }
 
+// MARK: - UIScrollViewDelegate
 extension GameProcessVC: UIScrollViewDelegate{
     func scrollViewDidEndScrollingAnimation(_ scrollView: UIScrollView) {
         changeFirstLetterStackAfterScrolling()
@@ -413,16 +322,7 @@ extension GameProcessVC: UIScrollViewDelegate{
     
     private func changeFirstLetterStackAfterScrolling(){
         let indexCenter = getCollectionItemIndexOnScreen()
-        
-        let views = letterStackName.arrangedSubviews
-        for i in 0..<views.count{
-            guard let label = views[i] as? UILabel else {return}
-            if i != indexCenter{
-                label.textColor = UIColor(named: "elemBack")
-            }else {
-                label.textColor = .white
-            }
-        }
+        settColorsForLetterStackName(indexCenter: indexCenter)
         
         for i in 0..<DataClass.sharedInstance().playersArray.count{
             if i != indexCenter{
@@ -432,14 +332,10 @@ extension GameProcessVC: UIScrollViewDelegate{
                 DataClass.sharedInstance().playersArray[i].select = true
                 DataClass.sharedInstance().playersArray[i].playersIndex = indexPathOnScreen
             }
-            
         }
-        
-        print(DataClass.sharedInstance().playersArray)
     }
     
     private func changePreviousNextButton(){
-
         let indexCenter = getCollectionItemIndexOnScreen()
         
         if indexCenter == 0 {
@@ -452,8 +348,85 @@ extension GameProcessVC: UIScrollViewDelegate{
             nextButton.setImage(UIImage(named: "next"), for: .normal)
             previousButton.setImage(UIImage(named: "back"), for: .normal)
         }
-        
     }
+}
+
+//MARK: Halpers func
+extension GameProcessVC{
+    
+    func selectItemAfterResume(){
+        for i in 0..<DataClass.sharedInstance().playersArray.count{
+            if DataClass.sharedInstance().playersArray[i].select == true{
+                gamerCollectionView.selectItem(at: DataClass.sharedInstance().playersArray[i].playersIndex, animated: true, scrollPosition: .centeredHorizontally)
+                break
+            }
+        }
+    }
+    
+    func timer(){
+        timerL.invalidate()
+
+        timerLabel.text = "\(getSecondAndMinuteString()[1]):\(getSecondAndMinuteString()[0])"
+        
+        timerL = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
+        RunLoop.current.add(timerL, forMode: .common)
+    }
+    
+    func settDataFromGame() {
+        dataHolder = DataClass.sharedInstance().playersArray
+        gamerCollectionView.selectItem(at: IndexPath(indexes: [0,0]), animated: true, scrollPosition: .centeredHorizontally)
+        gamerCollectionView.reloadData()
+    }
+    
+    func settLetterStackView(withRefresh: Bool){
+        if withRefresh{
+            let arangedSubviews = letterStackName.arrangedSubviews
+            for view in arangedSubviews{
+                letterStackName.removeArrangedSubview(view)
+                view.removeFromSuperview()
+            }
+        }
+        for i in 0..<dataHolder.count {
+            let firstLetter = dataHolder[i].name.first!.uppercased()
+            let label = UILabel()
+            label.text = firstLetter
+            label.font = UIFont(name: "Nunito-ExtraBold", size: 20)
+            if i == 0{
+                label.textColor = .white
+            }else {
+                label.textColor = UIColor(named: "elemBack")
+            }
+            letterStackName.addArrangedSubview(label)
+        }
+    }
+    
+    private func settMultiplicator(){
+        let viewHeight = self.view.frame.height
+        if viewHeight<800 && viewHeight>600{
+            multiplikator = 0.8
+        }else if viewHeight<600{
+            multiplikator = 0.6
+        }
+    }
+    
+    private func getCollectionItemIndexOnScreen() -> Int?{
+        guard let indexPathOnScreen = gamerCollectionView.indexPathForItem(at: self.view.convert(self.view.center, to: gamerCollectionView)) else {return nil}
+        let indexCenter = indexPathOnScreen.item
+        return indexCenter
+    }
+    
+    private func settColorsForLetterStackName(indexCenter: Int?){
+        let views = letterStackName.arrangedSubviews
+        for i in 0..<views.count{
+            guard let label = views[i] as? UILabel else {return}
+            if i != indexCenter{
+                label.textColor = UIColor(named: "elemBack")
+            }else {
+                label.textColor = .white
+            }
+        }
+    }
+ 
 }
 
 //MARK: Targets
@@ -462,11 +435,9 @@ extension GameProcessVC{
     @objc func newGameButtonTapped(){
         let newGameVC = NewGameVC()
         newGameVC.gameProcessDelegate = self
-        let navVS = UINavigationController(rootViewController: newGameVC)
-        navVS.navigationBar.isHidden = true
-        present(navVS, animated: true, completion: nil)
-//        self.present(newGameVC, animated: true, completion: nil)
-        
+        let navVC = UINavigationController(rootViewController: newGameVC)
+        navVC.navigationBar.isHidden = true
+        present(navVC, animated: true, completion: nil)
     }
     
     @objc func plusButtonTapped(sender: UIButton){
@@ -476,7 +447,8 @@ extension GameProcessVC{
         
         DataClass.sharedInstance().playersArray[indexCenter].score += plusNumber
         DataClass.sharedInstance().turnsArray.append(Turn(player: DataClass.sharedInstance().playersArray[indexCenter], addScore: (sender.titleLabel?.text)!, playersIndex: indexPathOnScreen))
-        settDataHolder()
+        
+        settDataFromGame()
         nextButtonTapped()
     }
     
@@ -503,10 +475,8 @@ extension GameProcessVC{
     @objc func undoButtonTapped(){
         guard let lastTurn = DataClass.sharedInstance().turnsArray.popLast() else {return}
         DataClass.sharedInstance().playersArray[lastTurn.playersIndex.item].score -= Int(lastTurn.addScore)!
-        settDataHolder()
+        settDataFromGame()
         gamerCollectionView.selectItem(at: lastTurn.playersIndex, animated: true, scrollPosition: .centeredHorizontally)
-        
-        
     }
     
     @objc func resultsButtonTapped(){
@@ -516,7 +486,6 @@ extension GameProcessVC{
         let navVS = UINavigationController(rootViewController: resultVC)
         navVS.navigationBar.isHidden = true
         present(navVS, animated: true, completion: nil)
-        
     }
     
     @objc func playPauseButtonTapped() {
@@ -533,11 +502,28 @@ extension GameProcessVC{
     
     @objc func rollButtonTapped() {
         let rollVC = RollVC()
-        //FIXME: сделать кастомную анимацию перехода (из центра экрана с шатанием кубика)
         rollVC.modalPresentationStyle = .overFullScreen
         show(rollVC, sender: nil)
     }
+    
+    @objc func tick(){
+        DataClass.sharedInstance().gameTime.second += 1
+        if DataClass.sharedInstance().gameTime.second == 60 {
+            DataClass.sharedInstance().gameTime.minute += 1
+            DataClass.sharedInstance().gameTime.second = 0
+        }
+        timerLabel.text = "\(getSecondAndMinuteString()[1]):\(getSecondAndMinuteString()[0])"
+    }
+    
+    private func getSecondAndMinuteString()->[String]{
+        let gameTime = DataClass.sharedInstance().gameTime
+        let secondString = String(gameTime.second).count < 2 ? "0\(String(gameTime.second))" : (String(gameTime.second))
+        let minuteString = String(gameTime.minute).count < 2 ? "0\(String(gameTime.minute))" : String(gameTime.minute)
+        return [secondString,minuteString]
+    }
 }
+
+
 
 ////MARK: SwiftUI
 ////Импортируем SwiftUI библиотеку
