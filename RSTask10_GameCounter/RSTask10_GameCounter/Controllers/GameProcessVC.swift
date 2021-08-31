@@ -46,6 +46,7 @@ final class GameProcessVC: UIViewController {
         let minuteString = String(DataClass.sharedInstance().gameTime.minute).count < 2 ? "0\(String(DataClass.sharedInstance().gameTime.minute))" : String(DataClass.sharedInstance().gameTime.minute)
         timerLabel.text = "\(minuteString):\(secondString)"
         timerL = Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(tick), userInfo: nil, repeats: true)
+        RunLoop.current.add(timerL, forMode: .common)
         print("timer on")
     }
     @objc func tick(){

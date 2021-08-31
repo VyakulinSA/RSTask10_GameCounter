@@ -26,12 +26,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             let playersArray = defaults.decode(for: [Player].self, using: String(describing: Player.self))
             let turnsArray = defaults.decode(for: [Turn].self, using: String(describing: Turn.self))
             let gameTime = defaults.decode(for: GameTime.self, using: String(describing: GameTime.self))
-            let timerPlay = defaults.bool(forKey: "timerPlaySaved")
+//            let timerPlay = defaults.bool(forKey: "timerPlaySaved")
             
             DataClass.sharedInstance().playersArray = playersArray ?? [Player]()
             DataClass.sharedInstance().turnsArray = turnsArray ?? [Turn]()
             DataClass.sharedInstance().gameTime = gameTime ?? GameTime(minute: 0, second: 0 )
-            DataClass.sharedInstance().timerPlay = timerPlay
+            DataClass.sharedInstance().timerPlay = true
             
             
             let rootVC = GameProcessVC()
@@ -53,8 +53,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         defaults.encode(for:DataClass.sharedInstance().turnsArray, using: String(describing: Turn.self))
         defaults.encode(for:DataClass.sharedInstance().gameTime, using: String(describing: GameTime.self))
         defaults.setValue(DataClass.sharedInstance().timerPlay, forKey: "timerPlaySaved")
-        //        defaults.setValue(false, forKey: "firstLaunch")
-        //        defaults.setValue(false, forKey: "firstLaunch")
+//                defaults.setValue(false, forKey: "firstLaunch")
     }
     
     @available(iOS 13.0, *)

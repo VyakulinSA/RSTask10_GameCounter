@@ -15,10 +15,7 @@ class DataClass{
     
     private init() {}
     
-    var playersArray = [Player(name: "aaa", score: 0, select: true),
-                        Player(name: "bbb", score: 0, select: false),
-                        Player(name: "ccc", score: 0, select: false),
-                        Player(name: "ddd", score: 0, select: false)]
+    var playersArray = [Player]()
     var turnsArray = [Turn]()
     
     var gameTime = GameTime(minute: 0, second: 0)
