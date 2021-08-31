@@ -11,13 +11,10 @@ class NewGameVC: UIViewController {
     
     private let startButtonHeight: CGFloat = 65
     private let tableRowHeight: CGFloat = 41
-    private var dataHolder = DataClass.sharedInstance().playersArray
+    var dataHolder = DataClass.sharedInstance().playersArray
     private var tableViewHeightConstraint: NSLayoutConstraint?
     let firstStart = true
     let defaults = UserDefaults.standard
-    
-    var countNewPlayers = 0
-    var deletedPlayers = [Player]()
     
     var gameProcessDelegate: GameProcessVC?
     var resultDelegate: ResultsVC?
@@ -119,7 +116,7 @@ class NewGameVC: UIViewController {
     }
     
     func settDataHolder() {
-        dataHolder = DataClass.sharedInstance().playersArray
+//        dataHolder = DataClass.sharedInstance().playersArray
         tableViewHeightConstraint?.constant = 120 + tableRowHeight * CGFloat(dataHolder.count)
         startGameButton.onOffButton(enable: dataHolder.count != 0)
     }
@@ -141,8 +138,8 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
         let itemToMove = dataHolder[sourceIndexPath.row]
-        DataClass.sharedInstance().playersArray.remove(at: sourceIndexPath.row)
-        DataClass.sharedInstance().playersArray.insert(itemToMove, at: destinationIndexPath.row)
+        dataHolder.remove(at: sourceIndexPath.row)
+        dataHolder.insert(itemToMove, at: destinationIndexPath.row)
     }
     
     func tableView(_ tableView: UITableView, shouldIndentWhileEditingRowAt indexPath: IndexPath) -> Bool {
@@ -179,8 +176,7 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
     func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
         switch editingStyle {
         case .delete:
-            let delPlayer = DataClass.sharedInstance().playersArray.remove(at: indexPath.row)
-            deletedPlayers.append(delPlayer)
+            dataHolder.remove(at: indexPath.row)
             settDataHolder()
             tableView.deleteRows(at: [indexPath], with: .left)
         default:
@@ -257,6 +253,7 @@ extension NewGameVC{
     }
     
     @objc func startGameButtonTapped() {
+        DataClass.sharedInstance().playersArray = dataHolder
         for i in 0..<DataClass.sharedInstance().playersArray.count{
             DataClass.sharedInstance().playersArray[i].score = 0
             DataClass.sharedInstance().playersArray[i].position = 0
@@ -271,8 +268,6 @@ extension NewGameVC{
         defaults.setValue(nil, forKey: "startBackground")
         defaults.setValue(DataClass.sharedInstance().timerPlay, forKey: "timerPlaySaved")
         defaults.setValue(true, forKey: "firstLaunch")
-        
-        countNewPlayers = 0
         
         settDataHolder()
         
@@ -294,22 +289,6 @@ extension NewGameVC{
     }
     
     @objc func cancelButtonTapped(){
-        if countNewPlayers > 0 {
-            for _ in 0..<countNewPlayers{
-                DataClass.sharedInstance().playersArray.removeLast()
-            }
-            
-        }
-        
-        if deletedPlayers.count > 0 {
-            deletedPlayers.reverse()
-            for player in deletedPlayers {
-                DataClass.sharedInstance().playersArray.append(player)
-            }
-        }
-        
-        deletedPlayers = [Player]()
-        countNewPlayers = 0
         dismiss(animated: true, completion: nil)
     }
 

@@ -23,8 +23,19 @@ final class GameProcessVC: UIViewController {
         if DataClass.shared.timerPlay{
             timer()
         }
-        
-        
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        selectItemAfterResume()
+    }
+    
+    func selectItemAfterResume(){
+        for i in 0..<DataClass.sharedInstance().playersArray.count{
+            if DataClass.sharedInstance().playersArray[i].select == true{
+                gamerCollectionView.selectItem(at: DataClass.sharedInstance().playersArray[i].playersIndex, animated: true, scrollPosition: .centeredHorizontally)
+
+            }
+        }
     }
     
     
@@ -313,12 +324,7 @@ final class GameProcessVC: UIViewController {
         undoButton.addTarget(self, action: #selector(undoButtonTapped), for: .touchUpInside)
     }
     
-    @objc func rollButtonTapped() {
-        let rollVC = RollVC()
-        //FIXME: сделать кастомную анимацию перехода (из центра экрана с шатанием кубика)
-        rollVC.modalPresentationStyle = .overFullScreen
-        show(rollVC, sender: nil)
-    }
+
     
     private func getCollectionItemIndexOnScreen() -> Int?{
         guard let indexPathOnScreen = gamerCollectionView.indexPathForItem(at: self.view.convert(self.view.center, to: gamerCollectionView)) else {return nil}
@@ -361,6 +367,7 @@ extension GameProcessVC: UICollectionViewDataSource, UICollectionViewDelegate {
         
         return cell
     }
+    
     
 }
 
@@ -415,6 +422,19 @@ extension GameProcessVC: UIScrollViewDelegate{
                 label.textColor = .white
             }
         }
+        
+        for i in 0..<DataClass.sharedInstance().playersArray.count{
+            if i != indexCenter{
+                DataClass.sharedInstance().playersArray[i].select = false
+            } else {
+                guard let indexPathOnScreen = gamerCollectionView.indexPathForItem(at: self.view.convert(self.view.center, to: gamerCollectionView)) else {return}
+                DataClass.sharedInstance().playersArray[i].select = true
+                DataClass.sharedInstance().playersArray[i].playersIndex = indexPathOnScreen
+            }
+            
+        }
+        
+        print(DataClass.sharedInstance().playersArray)
     }
     
     private func changePreviousNextButton(){
@@ -431,6 +451,7 @@ extension GameProcessVC: UIScrollViewDelegate{
             nextButton.setImage(UIImage(named: "next"), for: .normal)
             previousButton.setImage(UIImage(named: "back"), for: .normal)
         }
+        
     }
 }
 
@@ -507,6 +528,13 @@ extension GameProcessVC{
             timer()
             DataClass.sharedInstance().timerPlay = true
         }
+    }
+    
+    @objc func rollButtonTapped() {
+        let rollVC = RollVC()
+        //FIXME: сделать кастомную анимацию перехода (из центра экрана с шатанием кубика)
+        rollVC.modalPresentationStyle = .overFullScreen
+        show(rollVC, sender: nil)
     }
 }
 

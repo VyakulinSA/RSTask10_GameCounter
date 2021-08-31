@@ -17,14 +17,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Override point for customization after application launch.
         defaults.setValue(nil, forKey: "startBackground")
         
+        window = UIWindow()
+        
         if #available(iOS 13, *){
             return true
         }else {
-            let rootVC: UINavigationController?
-            
             if defaults.bool(forKey: "firstLaunch") == false {
-                rootVC = UINavigationController(rootViewController: NewGameVC())
-                rootVC?.navigationBar.isHidden = true
+                let rootVC = UINavigationController(rootViewController: NewGameVC())
+                rootVC.navigationBar.isHidden = true
+                window?.rootViewController = rootVC
             } else{
                 let playersArray = defaults.decode(for: [Player].self, using: String(describing: Player.self))
                 let turnsArray = defaults.decode(for: [Turn].self, using: String(describing: Turn.self))
@@ -37,13 +38,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 DataClass.sharedInstance().timerPlay = timerPlay
                 
                 
-                rootVC = UINavigationController(rootViewController: GameProcessVC())
-                rootVC?.navigationBar.isHidden = true
+                let rootVC = GameProcessVC()
+                window?.rootViewController = rootVC
             }
-            
-            
-            window = UIWindow()
-            window?.rootViewController = rootVC
+
             window?.makeKeyAndVisible()
             
             return true

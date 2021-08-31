@@ -37,6 +37,7 @@ struct Player: Codable {
     var score: Int
     var select: Bool
     var position: Int = 0
+    var playersIndex: IndexPath = [0,0]
 }
 
 struct Turn: Codable {
