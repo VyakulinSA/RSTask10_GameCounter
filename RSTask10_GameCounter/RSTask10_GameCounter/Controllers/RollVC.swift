@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import AudioToolbox
 
 class RollVC: UIViewController {
 
@@ -18,6 +19,7 @@ class RollVC: UIViewController {
         let recognizer = UITapGestureRecognizer(target: self, action: #selector(dismissRollVC))
         self.view.addGestureRecognizer(recognizer)
         
+        AudioServicesPlayAlertSound(SystemSoundID(kSystemSoundID_Vibrate))
     }
     
     @objc func dismissRollVC() {
