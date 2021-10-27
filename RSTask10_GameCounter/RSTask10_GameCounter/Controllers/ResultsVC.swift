@@ -241,7 +241,7 @@ extension ResultsVC{
     }
 }
 
-//MARK: Helpers func
+//MARK: Halpers func
 extension ResultsVC {
     
     private func filteredPlayers(playersArray: [Player])->[Player]{

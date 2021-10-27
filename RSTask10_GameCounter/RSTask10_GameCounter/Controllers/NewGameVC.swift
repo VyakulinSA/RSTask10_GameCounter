@@ -287,10 +287,10 @@ extension NewGameVC{
     }
     
     @objc func startGameButtonTapped() {
-        let helpersClass = UserDefaultsManager()
+        let halpersClass = UserDefaultsManager()
         
         settParamsForNewGame()
-        helpersClass.saveDataInUserDefaults(valueForStartBackground: nil)
+        halpersClass.saveDataInUserDefaults(valueForStartBackground: nil)
         defaults.setValue(true, forKey: "firstLaunch")
         
         refreshConstraint()
@@ -318,7 +318,7 @@ extension NewGameVC{
     }
 }
 
-//MARK: Helpers func
+//MARK: Halpers func
 extension NewGameVC {
     
     func refreshConstraint() {

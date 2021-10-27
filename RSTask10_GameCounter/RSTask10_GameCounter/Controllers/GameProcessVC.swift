@@ -12,7 +12,7 @@ final class GameProcessVC: UIViewController {
     private var dataHolder: [Player]!
     private var timerL = Timer()
     private var multiplikator: CGFloat = 1.0
-    let helpersClass = UserDefaultsManager()
+    let halpersClass = UserDefaultsManager()
     private var nextIndexPath: IndexPath?
 
     override func viewDidLoad() {
@@ -458,7 +458,7 @@ extension GameProcessVC: UIScrollViewDelegate{
     }
 }
 
-//MARK: Helpers func
+//MARK: Halpers func
 extension GameProcessVC{
     
     func selectItemAfterResume() {
@@ -636,7 +636,7 @@ extension GameProcessVC{
         timerLabel.text = "\(getSecondAndMinuteString()[1]):\(getSecondAndMinuteString()[0])"
         
         let start = CFAbsoluteTimeGetCurrent()
-        helpersClass.saveDataInUserDefaults(valueForStartBackground: start)
+        halpersClass.saveDataInUserDefaults(valueForStartBackground: start)
     }
     
     private func getSecondAndMinuteString()->[String]{
