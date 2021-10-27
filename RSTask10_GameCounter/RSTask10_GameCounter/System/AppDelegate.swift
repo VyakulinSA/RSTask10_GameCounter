@@ -11,12 +11,12 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate {
     private var dataShared: DataClass!
     private var defaults: UserDefaults!
-    private var halpersClass: UserDefaultsManager!
+    private var helpersClass: UserDefaultsManager!
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-            halpersClass = UserDefaultsManager()
+            helpersClass = UserDefaultsManager()
             defaults = UserDefaults.standard
             dataShared = DataClass.sharedInstance()
             defaults.setValue(nil, forKey: "startBackground")
@@ -28,7 +28,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
                 rootVC.navigationBar.isHidden = true
                 window?.rootViewController = rootVC
             } else{
-                halpersClass.getDefaultsAndSetDataClass()
+                helpersClass.getDefaultsAndSetDataClass()
                 let rootVC = GameProcessVC()
                 window?.rootViewController = rootVC
             }
@@ -67,7 +67,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func applicationDidEnterBackground(_ application: UIApplication) {
         print("ушел в диспетчер задач")
         let start = CFAbsoluteTimeGetCurrent()
-        halpersClass.saveDataInUserDefaults(valueForStartBackground: start)
+        helpersClass.saveDataInUserDefaults(valueForStartBackground: start)
     }
     
     

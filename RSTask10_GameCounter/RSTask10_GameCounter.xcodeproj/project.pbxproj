@@ -90,7 +90,7 @@
 			children = (
 				3C87B38426D7042C00DB5C0F /* Controllers */,
 				3C7BF29C26DA9B7D00D5BA10 /* CustomView */,
-				3C87B37726D7042C00DB5C0F /* Halpers */,
+				3C87B37726D7042C00DB5C0F /* Helpers */,
 				3C87B37B26D7042C00DB5C0F /* System */,
 				3C87B38126D7042C00DB5C0F /* Fonts */,
 				3C87B39426D7048100DB5C0F /* Info.plist */,
@@ -98,7 +98,7 @@
 			path = RSTask10_GameCounter;
 			sourceTree = "<group>";
 		};
-		3C87B37726D7042C00DB5C0F /* Halpers */ = {
+		3C87B37726D7042C00DB5C0F /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
 				3C2221D826DB6FE30006FBF2 /* DataClass.swift */,
@@ -112,7 +112,7 @@
 				3CB6BD4D2711C0AC0042FD3B /* Constants.swift */,
 				3CB6BD4F2711CB560042FD3B /* ElementGenerator.swift */,
 			);
-			path = Halpers;
+			path = Helpers;
 			sourceTree = "<group>";
 		};
 		3C87B37B26D7042C00DB5C0F /* System */ = {
