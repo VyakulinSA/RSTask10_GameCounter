@@ -31,7 +31,7 @@ class ResultCollectionViewCell: UICollectionViewCell {
     private let nameLabel: UILabel = {
         let label = UILabel()
         label.text = "Name"
-        label.textColor = UIColor(named: "nameColor")
+        label.textColor = UIColor(named: "playerNameColor")
         label.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -46,7 +46,7 @@ class ResultCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private func settViews(){
+    private func settViews() {
         
         contentView.addSubview(positionLabel)
         contentView.addSubview(nameLabel)
@@ -59,39 +59,12 @@ class ResultCollectionViewCell: UICollectionViewCell {
             nameLabel.leadingAnchor.constraint(equalTo: positionLabel.trailingAnchor, constant: 10),
             scoreLabel.centerYAnchor.constraint(equalTo: positionLabel.centerYAnchor),
             scoreLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            
-            
         ])
     }
     
-    func settLabels(position: Int, name: String, score: Int){
+    func settLabels(position: Int, name: String, score: Int) {
         self.positionLabel.text = "#\(position)"
         self.nameLabel.text = name
         self.scoreLabel.text = String(score)
     }
 }
-
-////MARK: SwiftUI
-////Импортируем SwiftUI библиотеку
-//import SwiftUI
-////создаем структуру
-//struct PeopleVСProvider: PreviewProvider {
-//    @available(iOS 13.0.0, *)
-//    static var previews: some View {
-//        ContainerView().edgesIgnoringSafeArea(.all)
-//    }
-//
-//    @available(iOS 13.0, *)
-//    struct ContainerView: UIViewControllerRepresentable {
-//        //создадим объект класса, который хотим показывать в Canvas
-//        let tabBarVC = ResultsVC()
-//        //меняем input параметры в соответствии с образцом
-//        @available(iOS 13.0, *)
-//        func makeUIViewController(context: UIViewControllerRepresentableContext<PeopleVСProvider.ContainerView>) -> ResultsVC {
-//            return tabBarVC
-//        }
-//        //не пишем никакого кода
-//        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-//        }
-//    }
-//}

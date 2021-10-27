@@ -9,7 +9,7 @@ import UIKit
 
 class ResultsVC: UIViewController {
     
-    var gameDelegate: GameProcessVC?
+    weak var gameDelegate: GameProcessVC?
     
     private var dataHolder = DataClass.sharedInstance().playersArray
     private var turnsArray = DataClass.sharedInstance().turnsArray
@@ -19,28 +19,46 @@ class ResultsVC: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "backGround")
+        self.view.backgroundColor = UIColor(named: "backGroundColor")
         self.settViews()
     }
     
-    private func settViews(){
+    private func settViews() {
         let safeArea = self.view.safeAreaLayoutGuide
         
         //MARK: create cancelButton
-        let newGameButton = UIButton(type: .system).createBarButton(title: "New Game", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
+        let newGameButton = UIButton(type: .system).createBarButton(
+            title: "New Game",
+            font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!
+        )
         
         self.view.addSubview(newGameButton)
         
-        newGameButton.anchor(top: safeArea.topAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0))
+        newGameButton.anchor(
+            top: safeArea.topAnchor,
+            leading: safeArea.leadingAnchor,
+            bottom: nil,
+            trailing: nil,
+            padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0)
+        )
         
         newGameButton.addTarget(self, action: #selector(newGameButtonTapped), for: .touchUpInside)
         
         //MARK: create addlButton
-        let resumeButton = UIButton(type: .system).createBarButton(title: "Resume", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
+        let resumeButton = UIButton(type: .system).createBarButton(
+            title: "Resume",
+            font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!
+        )
         
         self.view.addSubview(resumeButton)
         
-        resumeButton.anchor(top: safeArea.topAnchor, leading: nil, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 25))
+        resumeButton.anchor(
+            top: safeArea.topAnchor,
+            leading: nil,
+            bottom: nil,
+            trailing: safeArea.trailingAnchor,
+            padding: UIEdgeInsets(top: 6, left: 0, bottom: 0, right: 25)
+        )
         
         resumeButton.addTarget(self, action: #selector(resumeButtonTapped), for: .touchUpInside)
         
@@ -56,7 +74,13 @@ class ResultsVC: UIViewController {
         
         self.view.addSubview(resultsLabel)
         
-        resultsLabel.anchor(top: newGameButton.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 200))
+        resultsLabel.anchor(
+            top: newGameButton.bottomAnchor,
+            leading: safeArea.leadingAnchor,
+            bottom: nil,
+            trailing: safeArea.trailingAnchor,
+            padding: UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 200)
+        )
 
         //MARK: create collectionView
         
@@ -70,7 +94,7 @@ class ResultsVC: UIViewController {
             view.register(ResultCollectionViewCell.self, forCellWithReuseIdentifier: "resultCell")
             view.delegate = self
             view.dataSource = self
-            view.backgroundColor = UIColor(named: "backGround")
+            view.backgroundColor = UIColor(named: "backGroundColor")
             return view
         }()
         
@@ -78,7 +102,14 @@ class ResultsVC: UIViewController {
         
         let collectionHeight: CGFloat = (rowHeight + 15) * CGFloat(dataHolder.count) < 300 ? (rowHeight + 15) * CGFloat(dataHolder.count) : 300
         
-        collectionView.anchor(top: resultsLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20), size: CGSize(width: 0, height: collectionHeight * multiplikator))
+        collectionView.anchor(
+            top: resultsLabel.bottomAnchor,
+            leading: safeArea.leadingAnchor,
+            bottom: nil,
+            trailing: safeArea.trailingAnchor,
+            padding: UIEdgeInsets(top: 20, left: 20, bottom: 0, right: 20),
+            size: CGSize(width: 0, height: collectionHeight * multiplikator)
+        )
         
         //MARK: createTableView
         
@@ -89,16 +120,21 @@ class ResultsVC: UIViewController {
             table.dataSource = self
             table.translatesAutoresizingMaskIntoConstraints = false
             table.layer.cornerRadius = 15
-            table.backgroundColor = UIColor(named: "elemBack")
+            table.backgroundColor = UIColor(named: "elementBackgroundColor")
             table.alwaysBounceVertical = false
             return table
         }()
         
         self.view.addSubview(resultsTableView)
         
-        resultsTableView.anchor(top: collectionView.bottomAnchor, leading: safeArea.leadingAnchor, bottom: self.view.bottomAnchor, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 10, left: 20, bottom: 20, right: 20))
+        resultsTableView.anchor(
+            top: collectionView.bottomAnchor,
+            leading: safeArea.leadingAnchor,
+            bottom: self.view.bottomAnchor,
+            trailing: safeArea.trailingAnchor,
+            padding: UIEdgeInsets(top: 10, left: 20, bottom: 20, right: 20)
+        )
     }
-    
 }
 
 //MARK: UITableViewDelegate, UITableViewDataSource
@@ -125,7 +161,7 @@ extension ResultsVC: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        headerView.backgroundColor = UIColor(named: "elemBack")
+        headerView.backgroundColor = UIColor(named: "elementBackgroundColor")
         let playerLabel: UILabel = {
             let label = UILabel()
             label.text = "Turns"
@@ -136,7 +172,13 @@ extension ResultsVC: UITableViewDelegate, UITableViewDataSource{
         }()
         headerView.addSubview(playerLabel)
         
-        playerLabel.anchor(top: headerView.topAnchor, leading: headerView.leadingAnchor, bottom: nil, trailing: headerView.trailingAnchor, padding: UIEdgeInsets(top: 16, left: 16, bottom: 0, right: -16))
+        playerLabel.anchor(
+            top: headerView.topAnchor,
+            leading: headerView.leadingAnchor,
+            bottom: nil,
+            trailing: headerView.trailingAnchor,
+            padding: UIEdgeInsets(top: 16, left: 16, bottom: 0, right: -16)
+        )
         
         return headerView
     }
@@ -156,7 +198,11 @@ extension ResultsVC: UICollectionViewDelegate, UICollectionViewDataSource{
         
         let filteredPlayers = settScoreAndPositionPlayers(playersArray: filteredPlayers(playersArray: dataHolder))
         
-        cell.settLabels(position: filteredPlayers[indexPath.item].position, name: filteredPlayers[indexPath.item].name, score: filteredPlayers[indexPath.item].score)
+        cell.settLabels(
+            position: filteredPlayers.1[indexPath.item],
+            name: filteredPlayers.0[indexPath.item].name,
+            score: filteredPlayers.0[indexPath.item].score
+        )
         return cell
     }
     
@@ -165,13 +211,17 @@ extension ResultsVC: UICollectionViewDelegate, UICollectionViewDataSource{
 
 extension ResultsVC: UICollectionViewDelegateFlowLayout {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = collectionView.bounds.width
         let height: CGFloat = rowHeight
         return CGSize(width: width, height: height * multiplikator)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+    func collectionView(_ collectionView: UICollectionView,
+                        layout collectionViewLayout: UICollectionViewLayout,
+                        minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         return 10.0
     }
 }
@@ -179,11 +229,11 @@ extension ResultsVC: UICollectionViewDelegateFlowLayout {
 //MARK: Targets
 extension ResultsVC{
     
-    @objc func resumeButtonTapped(){
+    @objc func resumeButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func newGameButtonTapped(){
+    @objc func newGameButtonTapped() {
         let newGameVC = NewGameVC()
         newGameVC.resultDelegate = self
         newGameVC.modalPresentationStyle = .fullScreen
@@ -200,53 +250,25 @@ extension ResultsVC {
         return filteredPlayers
     }
     
-    private func settScoreAndPositionPlayers(playersArray: [Player])->[Player]{
+    private func settScoreAndPositionPlayers(playersArray: [Player])->([Player],[Int]){
         var score = 0
         var position = 1
-        
-        var array = playersArray
+        var playerPositionArray = [Int](repeating: 1, count: playersArray.count)
         
         for i in 0..<playersArray.count{
             if i == 0{
                 score = playersArray[i].score
-                array[i].position = position
+                playerPositionArray[i] = position
                 continue
             }
             if playersArray[i].score == score{
-                array[i].position = position
+                playerPositionArray[i] = position
             }else {
                 score = playersArray[i].score
                 position += 1
-                array[i].position = position
+                playerPositionArray[i] = position
             }
         }
-        return array
+        return (playersArray, playerPositionArray)
     }
-    
 }
-
-
-////MARK: SwiftUI
-////Импортируем SwiftUI библиотеку
-//import SwiftUI
-////создаем структуру
-//struct PeopleVСProvider: PreviewProvider {
-//    @available(iOS 13.0.0, *)
-//    static var previews: some View {
-//        ContainerView().edgesIgnoringSafeArea(.all)
-//    }
-//    
-//    @available(iOS 13.0, *)
-//    struct ContainerView: UIViewControllerRepresentable {
-//        //создадим объект класса, который хотим показывать в Canvas
-//        let tabBarVC = ResultsVC()
-//        //меняем input параметры в соответствии с образцом
-//        @available(iOS 13.0, *)
-//        func makeUIViewController(context: UIViewControllerRepresentableContext<PeopleVСProvider.ContainerView>) -> ResultsVC {
-//            return tabBarVC
-//        }
-//        //не пишем никакого кода
-//        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-//        }
-//    }
-//}

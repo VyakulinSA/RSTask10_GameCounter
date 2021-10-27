@@ -26,19 +26,26 @@ class ResultsTableViewCell: UITableViewCell {
         return label
     }()
     
-    private func settViews(){
+    private func settViews() {
         
-        self.backgroundColor = UIColor(named: "elemBack")
+        self.backgroundColor = UIColor(named: "elementBackgroundColor")
         self.textLabel?.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 20)
         self.textLabel?.textColor = .white
         
         let seporator = UIView(frame: CGRect(x: 0, y: 0, width: self.frame.width - 16, height: 1))
-        seporator.backgroundColor = UIColor(named: "seporator")
+        seporator.backgroundColor = UIColor(named: "seporatorColor")
         seporator.translatesAutoresizingMaskIntoConstraints = false
         
         self.addSubview(seporator)
         
-        seporator.anchor(top: nil, leading: self.leadingAnchor, bottom: self.bottomAnchor, trailing: self.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0), size: CGSize(width: 0, height: 1))
+        seporator.anchor(
+            top: nil,
+            leading: self.leadingAnchor,
+            bottom: self.bottomAnchor,
+            trailing: self.trailingAnchor,
+            padding: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0),
+            size: CGSize(width: 0, height: 1)
+        )
         
         self.addSubview(addScoreLabel)
         
@@ -48,9 +55,8 @@ class ResultsTableViewCell: UITableViewCell {
         ])
     }
     
-    func settScore(name: String, score: String){
+    func settScore(name: String, score: String) {
         self.textLabel?.text = name
         addScoreLabel.text = score
     }
-
 }

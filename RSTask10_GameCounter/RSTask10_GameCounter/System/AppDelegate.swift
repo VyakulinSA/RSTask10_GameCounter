@@ -9,20 +9,20 @@ import UIKit
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
-
+    private var dataShared: DataClass!
+    private var defaults: UserDefaults!
+    private var halpersClass: UserDefaultsManager!
     var window: UIWindow?
-    let defaults = UserDefaults.standard
-    let halpersClass = Halpers()
-
+    
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
 
-        defaults.setValue(nil, forKey: "startBackground")
-        
-        window = UIWindow()
-        
-        if #available(iOS 13, *){
-            return true
-        }else {
+            halpersClass = UserDefaultsManager()
+            defaults = UserDefaults.standard
+            dataShared = DataClass.sharedInstance()
+            defaults.setValue(nil, forKey: "startBackground")
+            
+            window = UIWindow()
+            
             if defaults.bool(forKey: "firstLaunch") == false {
                 let rootVC = UINavigationController(rootViewController: NewGameVC())
                 rootVC.navigationBar.isHidden = true
@@ -34,20 +34,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             }
 
             window?.makeKeyAndVisible()
+            
+            if dataShared.timerPlay{
+                guard let start = defaults.object(forKey: "startBackground") as? CFAbsoluteTime else {return true}
+                
+                let elapsed = Int(CFAbsoluteTimeGetCurrent() - start)
+                let minute =  Int(elapsed / 60)
+                let seconds = elapsed % 60
+                dataShared.gameTime.second += seconds
+                dataShared.gameTime.minute += minute
+                
+                defaults.setValue(nil, forKey: "startBackground")
+            }
+            
             return true
-        }
+        
         
     }
-
-    // MARK: UISceneSession Lifecycle
-
-    @available(iOS 13.0, *)
-    func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-        return UISceneConfiguration(name: "Default Configuration", sessionRole: connectingSceneSession.role)
-    }
-
-    @available(iOS 13.0, *)
-    func application(_ application: UIApplication, didDiscardSceneSessions sceneSessions: Set<UISceneSession>) {}
     
     func applicationWillEnterForeground(_ application: UIApplication) {
         print("появился на экране")
@@ -56,8 +59,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let elapsed = Int(CFAbsoluteTimeGetCurrent() - start)
         let minute =  Int(elapsed / 60)
         let seconds = elapsed % 60
-        DataClass.sharedInstance().gameTime.second += seconds
-        DataClass.sharedInstance().gameTime.minute += minute
+        dataShared.gameTime.second += seconds
+        dataShared.gameTime.minute += minute
     }
     
 

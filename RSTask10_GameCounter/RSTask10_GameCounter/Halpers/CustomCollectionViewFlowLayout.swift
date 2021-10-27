@@ -25,7 +25,7 @@ class CustomCollectionViewFlowLayout: UICollectionViewFlowLayout {
         let horizontalOffset = proposedContentOffset.x + leftInset // leftInset is for "where you want the item stop on the left"
         let targetRect = CGRect(origin: CGPoint(x: proposedContentOffset.x, y: 0), size: self.collectionView!.bounds.size)
 
-        for layoutAttributes in super.layoutAttributesForElements(in: targetRect)! {
+        for layoutAttributes in layoutAttributesForElements(in: targetRect)! {
             let itemOffset = layoutAttributes.frame.origin.x
             if (abs(itemOffset - horizontalOffset) < abs(offsetAdjustment)) {
                 offsetAdjustment = itemOffset - horizontalOffset

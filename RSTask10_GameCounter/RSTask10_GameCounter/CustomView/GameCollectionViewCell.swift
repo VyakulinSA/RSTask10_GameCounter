@@ -13,19 +13,19 @@ class GameCollectionViewCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        self.backgroundColor = UIColor(named: "elemBack")
+        self.backgroundColor = UIColor(named: "elementBackgroundColor")
         settViews()
     }
     
     required init?(coder: NSCoder) {
         super.init(coder: coder)
-        self.backgroundColor = UIColor(named: "elemBack")
+        self.backgroundColor = UIColor(named: "elementBackgroundColor")
         settViews()
     }
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = UIColor(named: "nameColor")
+        label.textColor = UIColor(named: "playerNameColor")
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -37,7 +37,7 @@ class GameCollectionViewCell: UICollectionViewCell {
         return label
     }()
     
-    private func settViews(){
+    private func settViews() {
         
         self.layer.cornerRadius = 15
         self.layer.masksToBounds = true
@@ -51,40 +51,12 @@ class GameCollectionViewCell: UICollectionViewCell {
             scoreLabel.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             scoreLabel.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
         ])
-        
-
     }
     
-    func settLabels(name: String, score: Int){
+    func settLabels(name: String, score: Int) {
         self.nameLabel.text = name
         self.scoreLabel.text = String(score)
         self.nameLabel.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 28 * multiplicator)
         self.scoreLabel.font = UIFont(name: CustomFonts.nunitoBold.rawValue, size: 100 * multiplicator)
     }
-    
 }
-
-////MARK: SwiftUI
-////Импортируем SwiftUI библиотеку
-//import SwiftUI
-////создаем структуру
-//struct PeopleVСProvider: PreviewProvider {
-//    @available(iOS 13.0.0, *)
-//    static var previews: some View {
-//        ContainerView().edgesIgnoringSafeArea(.all)
-//    }
-//
-//    @available(iOS 13.0, *)
-//    struct ContainerView: UIViewControllerRepresentable {
-//        //создадим объект класса, который хотим показывать в Canvas
-//        let tabBarVC = GameProcessVC()
-//        //меняем input параметры в соответствии с образцом
-//        @available(iOS 13.0, *)
-//        func makeUIViewController(context: UIViewControllerRepresentableContext<PeopleVСProvider.ContainerView>) -> GameProcessVC {
-//            return tabBarVC
-//        }
-//        //не пишем никакого кода
-//        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-//        }
-//    }
-//}

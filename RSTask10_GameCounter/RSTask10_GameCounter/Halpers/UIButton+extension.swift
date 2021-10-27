@@ -10,39 +10,37 @@ import UIKit
 extension UIButton{
     
     func createBarButton(title: String, font: UIFont)->UIButton{
-        self.setTitle(title, for: .normal)
-        self.titleLabel?.font = font
-        self.setTitleColor(UIColor(named: "tintColor"), for: .normal)
-        self.translatesAutoresizingMaskIntoConstraints = false
-        
+        setTitle(title, for: .normal)
+        titleLabel?.font = font
+        setTitleColor(UIColor(named: "buttonColor"), for: .normal)
+        translatesAutoresizingMaskIntoConstraints = false
         return self
     }
     
     func createEllipseButton(title: String, font: UIFont, radius: CGFloat, shadow: Bool)->UIButton{
-        self.setTitle(title, for: .normal)
-        self.titleLabel?.font = font
-        self.setTitleColor(.white, for: .normal)
-        self.backgroundColor = UIColor(named: "tintColor")
-        self.translatesAutoresizingMaskIntoConstraints = false
-        self.layer.cornerRadius = radius
-        self.layer.masksToBounds = true
+        setTitle(title, for: .normal)
+        titleLabel?.font = font
+        setTitleColor(.white, for: .normal)
+        backgroundColor = UIColor(named: "buttonColor")
+        translatesAutoresizingMaskIntoConstraints = false
+        layer.cornerRadius = radius
+        layer.masksToBounds = true
         if shadow{
-            self.titleLabel?.layer.shadowColor = UIColor(named: "buttonShadow")?.cgColor
-            self.titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 2)
-            self.titleLabel?.layer.shadowRadius = 0
-            self.titleLabel?.layer.shadowOpacity = 1.0
+            titleLabel?.layer.shadowColor = UIColor(named: "shadowColor")?.cgColor
+            titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 2)
+            titleLabel?.layer.shadowRadius = 0
+            titleLabel?.layer.shadowOpacity = 1.0
         }
         return self
     }
     
-    func onOffButton(enable: Bool){
+    func onOffButton(enable: Bool) {
         if enable{
-            self.isEnabled = true
-            self.alpha = 1
+            isEnabled = true
+            setTitleColor(titleColor(for: .normal)?.withAlphaComponent(1.0), for: .normal)
         } else {
-            self.isEnabled = false
-            self.alpha = 0.5
+            isEnabled = false
+            setTitleColor(titleColor(for: .normal)?.withAlphaComponent(0.5), for: .normal)
         }
     }
-    
 }

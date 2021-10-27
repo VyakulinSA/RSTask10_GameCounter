@@ -8,10 +8,7 @@
 import Foundation
 
 class DataClass{
-    static var shared: DataClass = {
-        let instance = DataClass()
-        return instance
-    }()
+    static var shared: DataClass = .init()
     
     private init() {}
     
@@ -28,12 +25,10 @@ class DataClass{
     
 }
 
-
 struct Player: Codable {
     let name: String
     var score: Int
     var select: Bool
-    var position: Int = 0
     var playersIndex: IndexPath = [0,0]
 }
 

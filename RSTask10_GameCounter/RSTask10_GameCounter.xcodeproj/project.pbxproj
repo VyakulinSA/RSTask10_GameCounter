@@ -12,8 +12,7 @@
 		3C2221DC26DBC0DF0006FBF2 /* UICollectionView+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2221DB26DBC0DF0006FBF2 /* UICollectionView+extension.swift */; };
 		3C2221E026DBCFB20006FBF2 /* CustomCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2221DF26DBCFB20006FBF2 /* CustomCollectionViewFlowLayout.swift */; };
 		3C2221E226DD0AE30006FBF2 /* UserDefaults+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C2221E126DD0AE30006FBF2 /* UserDefaults+extension.swift */; };
-		3C32358226D76E1800BE905E /* Halpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358126D76E1800BE905E /* Halpers.swift */; };
-		3C32358426D7C19D00BE905E /* icon_Sort.svg in Resources */ = {isa = PBXBuildFile; fileRef = 3C32358326D7C19D00BE905E /* icon_Sort.svg */; };
+		3C32358226D76E1800BE905E /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358126D76E1800BE905E /* UserDefaultsManager.swift */; };
 		3C32358826D80A8800BE905E /* AddPlayerVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358726D80A8800BE905E /* AddPlayerVC.swift */; };
 		3C32358A26D8114300BE905E /* UITextField+extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C32358926D8114300BE905E /* UITextField+extension.swift */; };
 		3C7BF29726DA59DB00D5BA10 /* GameProcessVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C7BF29626DA59DB00D5BA10 /* GameProcessVC.swift */; };
@@ -27,10 +26,11 @@
 		3C87B38A26D7042C00DB5C0F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B37C26D7042C00DB5C0F /* Assets.xcassets */; };
 		3C87B38B26D7042C00DB5C0F /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B37D26D7042C00DB5C0F /* LaunchScreen.storyboard */; };
 		3C87B38C26D7042C00DB5C0F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B37F26D7042C00DB5C0F /* AppDelegate.swift */; };
-		3C87B38D26D7042C00DB5C0F /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B38026D7042C00DB5C0F /* SceneDelegate.swift */; };
 		3C87B38E26D7042C00DB5C0F /* Nunito-ExtraBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B38226D7042C00DB5C0F /* Nunito-ExtraBold.ttf */; };
 		3C87B38F26D7042C00DB5C0F /* Nunito-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3C87B38326D7042C00DB5C0F /* Nunito-SemiBold.ttf */; };
 		3C87B39026D7042C00DB5C0F /* NewGameVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C87B38526D7042C00DB5C0F /* NewGameVC.swift */; };
+		3CB6BD4E2711C0AC0042FD3B /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB6BD4D2711C0AC0042FD3B /* Constants.swift */; };
+		3CB6BD502711CB560042FD3B /* ElementGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3CB6BD4F2711CB560042FD3B /* ElementGenerator.swift */; };
 		3CC3006826DE9CB30064D387 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = 3CC3006726DE9CB30064D387 /* README.md */; };
 /* End PBXBuildFile section */
 
@@ -40,8 +40,7 @@
 		3C2221DB26DBC0DF0006FBF2 /* UICollectionView+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+extension.swift"; sourceTree = "<group>"; };
 		3C2221DF26DBCFB20006FBF2 /* CustomCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 		3C2221E126DD0AE30006FBF2 /* UserDefaults+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+extension.swift"; sourceTree = "<group>"; };
-		3C32358126D76E1800BE905E /* Halpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Halpers.swift; sourceTree = "<group>"; };
-		3C32358326D7C19D00BE905E /* icon_Sort.svg */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = icon_Sort.svg; sourceTree = "<group>"; };
+		3C32358126D76E1800BE905E /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		3C32358726D80A8800BE905E /* AddPlayerVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPlayerVC.swift; sourceTree = "<group>"; };
 		3C32358926D8114300BE905E /* UITextField+extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+extension.swift"; sourceTree = "<group>"; };
 		3C7BF29626DA59DB00D5BA10 /* GameProcessVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameProcessVC.swift; sourceTree = "<group>"; };
@@ -55,12 +54,13 @@
 		3C87B37C26D7042C00DB5C0F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C87B37E26D7042C00DB5C0F /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3C87B37F26D7042C00DB5C0F /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		3C87B38026D7042C00DB5C0F /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		3C87B38226D7042C00DB5C0F /* Nunito-ExtraBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-ExtraBold.ttf"; sourceTree = "<group>"; };
 		3C87B38326D7042C00DB5C0F /* Nunito-SemiBold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Nunito-SemiBold.ttf"; sourceTree = "<group>"; };
 		3C87B38526D7042C00DB5C0F /* NewGameVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NewGameVC.swift; sourceTree = "<group>"; };
 		3C87B39426D7048100DB5C0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = RSTask10_GameCounter/Info.plist; sourceTree = SOURCE_ROOT; };
 		3C90C2A826D6B8DF003C2E8F /* RSTask10_GameCounter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RSTask10_GameCounter.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		3CB6BD4D2711C0AC0042FD3B /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3CB6BD4F2711CB560042FD3B /* ElementGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElementGenerator.swift; sourceTree = "<group>"; };
 		3CC3006726DE9CB30064D387 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -103,12 +103,14 @@
 			children = (
 				3C2221D826DB6FE30006FBF2 /* DataClass.swift */,
 				3C87B37826D7042C00DB5C0F /* Constraints.swift */,
-				3C32358126D76E1800BE905E /* Halpers.swift */,
+				3C32358126D76E1800BE905E /* UserDefaultsManager.swift */,
 				3C87B37926D7042C00DB5C0F /* UIButton+extension.swift */,
 				3C32358926D8114300BE905E /* UITextField+extension.swift */,
 				3C2221DB26DBC0DF0006FBF2 /* UICollectionView+extension.swift */,
 				3C2221DF26DBCFB20006FBF2 /* CustomCollectionViewFlowLayout.swift */,
 				3C2221E126DD0AE30006FBF2 /* UserDefaults+extension.swift */,
+				3CB6BD4D2711C0AC0042FD3B /* Constants.swift */,
+				3CB6BD4F2711CB560042FD3B /* ElementGenerator.swift */,
 			);
 			path = Halpers;
 			sourceTree = "<group>";
@@ -119,7 +121,6 @@
 				3C87B37C26D7042C00DB5C0F /* Assets.xcassets */,
 				3C87B37D26D7042C00DB5C0F /* LaunchScreen.storyboard */,
 				3C87B37F26D7042C00DB5C0F /* AppDelegate.swift */,
-				3C87B38026D7042C00DB5C0F /* SceneDelegate.swift */,
 			);
 			path = System;
 			sourceTree = "<group>";
@@ -127,7 +128,6 @@
 		3C87B38126D7042C00DB5C0F /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				3C32358326D7C19D00BE905E /* icon_Sort.svg */,
 				3C87B38226D7042C00DB5C0F /* Nunito-ExtraBold.ttf */,
 				3C87B38326D7042C00DB5C0F /* Nunito-SemiBold.ttf */,
 				3C7BF29A26DA6FB400D5BA10 /* Nunito-Bold.ttf */,
@@ -222,7 +222,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C87B38F26D7042C00DB5C0F /* Nunito-SemiBold.ttf in Resources */,
-				3C32358426D7C19D00BE905E /* icon_Sort.svg in Resources */,
 				3C87B38A26D7042C00DB5C0F /* Assets.xcassets in Resources */,
 				3CC3006826DE9CB30064D387 /* README.md in Resources */,
 				3C87B38E26D7042C00DB5C0F /* Nunito-ExtraBold.ttf in Resources */,
@@ -239,11 +238,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				3C2221DC26DBC0DF0006FBF2 /* UICollectionView+extension.swift in Sources */,
+				3CB6BD4E2711C0AC0042FD3B /* Constants.swift in Sources */,
 				3C2221D926DB6FE30006FBF2 /* DataClass.swift in Sources */,
 				3C87B38726D7042C00DB5C0F /* Constraints.swift in Sources */,
 				3C7BF2A026DAA7AC00D5BA10 /* ResultsVC.swift in Sources */,
 				3C2221D726DB5DDF0006FBF2 /* ResultsTableViewCell.swift in Sources */,
-				3C32358226D76E1800BE905E /* Halpers.swift in Sources */,
+				3CB6BD502711CB560042FD3B /* ElementGenerator.swift in Sources */,
+				3C32358226D76E1800BE905E /* UserDefaultsManager.swift in Sources */,
 				3C87B39026D7042C00DB5C0F /* NewGameVC.swift in Sources */,
 				3C87B38C26D7042C00DB5C0F /* AppDelegate.swift in Sources */,
 				3C32358826D80A8800BE905E /* AddPlayerVC.swift in Sources */,
@@ -253,7 +254,6 @@
 				3C2221E026DBCFB20006FBF2 /* CustomCollectionViewFlowLayout.swift in Sources */,
 				3C87B38826D7042C00DB5C0F /* UIButton+extension.swift in Sources */,
 				3C7BF29E26DA9C2E00D5BA10 /* RollVC.swift in Sources */,
-				3C87B38D26D7042C00DB5C0F /* SceneDelegate.swift in Sources */,
 				3C7BF2A226DAB5CF00D5BA10 /* ResultCollectionViewCell.swift in Sources */,
 				3C7BF29726DA59DB00D5BA10 /* GameProcessVC.swift in Sources */,
 			);

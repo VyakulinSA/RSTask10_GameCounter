@@ -5,6 +5,7 @@
 //  Created by Вякулин Сергей on 25.08.2021.
 //
 
+import Foundation
 import UIKit
 
 class NewGameVC: UIViewController {
@@ -12,37 +13,39 @@ class NewGameVC: UIViewController {
     private let startButtonHeight: CGFloat = 65
     private let tableRowHeight: CGFloat = 41
     private var tableViewHeightConstraint: NSLayoutConstraint?
+    private let dataShared = DataClass.sharedInstance()
     
-    var dataHolder = DataClass.sharedInstance().playersArray
+    var dataHolder: [Player]!
     
     let defaults = UserDefaults.standard
     
-    var gameProcessDelegate: GameProcessVC?
-    var resultDelegate: ResultsVC?
+    weak var gameProcessDelegate: GameProcessVC?
+    weak var resultDelegate: ResultsVC?
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.view.backgroundColor = UIColor(named: "backGround")
+        self.view.backgroundColor = UIColor(named: "backGroundColor")
+        dataHolder = dataShared.playersArray
         settViews()
+        configurationViews()
     }
     
     //MARK: create cancelButton
-    let cancelButton = UIButton(type: .system).createBarButton(title: "Cancel", font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
-
-    //MARK: create tableView with players
-    lazy var playersTableView: UITableView = {
-        let table = UITableView()
-        table.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
-        table.translatesAutoresizingMaskIntoConstraints = false
-        table.layer.cornerRadius = 15
-        table.backgroundColor = UIColor(named: "elemBack")
-        table.isEditing = true
-        table.alwaysBounceVertical = false
-        table.delegate = self
-        table.dataSource = self
-        return table
-        
-    }()
+    let cancelButton = UIButton(type: .system).createBarButton(
+        title: "Cancel",
+        font: UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 17)!)
+    
+    
+    lazy var playersTableView = with(UITableView()) {
+        $0.register(UITableViewCell.self, forCellReuseIdentifier: "cell")
+        $0.translatesAutoresizingMaskIntoConstraints = false
+        $0.layer.cornerRadius = 15
+        $0.backgroundColor = UIColor(named: "elementBackgroundColor")
+        $0.isEditing = true
+        $0.alwaysBounceVertical = false
+        $0.delegate = self
+        $0.dataSource = self
+    }
     
     //MARK: create startGameButton
     private let startGameButton: UIButton = {
@@ -50,16 +53,16 @@ class NewGameVC: UIViewController {
         button.setTitle("Start game", for: .normal)
         button.titleLabel?.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 24)!
         
-        button.titleLabel?.layer.shadowColor = UIColor(named: "buttonShadow")?.cgColor
+        button.titleLabel?.layer.shadowColor = UIColor(named: "shadowColor")?.cgColor
         button.titleLabel?.layer.shadowOffset = CGSize(width: 0, height: 2)
         button.titleLabel?.layer.shadowRadius = 0
         button.titleLabel?.layer.shadowOpacity = 1.0
         
         button.setTitleColor(.white, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = UIColor(named: "tintColor")
+        button.backgroundColor = UIColor(named: "buttonColor")
         
-        button.layer.shadowColor = UIColor(named: "buttonShadow")?.cgColor
+        button.layer.shadowColor = UIColor(named: "shadowColor")?.cgColor
         button.layer.shadowOffset = CGSize(width: 0, height: 5)
         button.layer.shadowRadius = 0
         button.layer.shadowOpacity = 1.0
@@ -67,16 +70,28 @@ class NewGameVC: UIViewController {
         return button
     }()
     
+    private func configurationViews() {
+        cancelButton.isHidden = !defaults.bool(forKey: "firstLaunch")
+        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        
+        startGameButton.layer.cornerRadius = startButtonHeight / 2
+        startGameButton.onOffButton(enable: dataHolder.count != 0)
+        startGameButton.addTarget(self, action: #selector(startGameButtonTapped), for: .touchUpInside)
+    }
     
     //MARK: settViews
-    func settViews(){
+    func settViews() {
         let safeArea = self.view.safeAreaLayoutGuide
         //MARK: config cancelButton
         self.view.addSubview(cancelButton)
         
-        cancelButton.anchor(top: safeArea.topAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: nil, padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0))
-        cancelButton.isHidden = !defaults.bool(forKey: "firstLaunch")
-        cancelButton.addTarget(self, action: #selector(cancelButtonTapped), for: .touchUpInside)
+        cancelButton.anchor(
+            top: safeArea.topAnchor,
+            leading: safeArea.leadingAnchor,
+            bottom: nil,
+            trailing: nil,
+            padding: UIEdgeInsets(top: 6, left: 20, bottom: 0, right: 0)
+        )
         
         //MARK: config gameCounterLabel
         let gameCounterLabel: UILabel = {
@@ -90,23 +105,40 @@ class NewGameVC: UIViewController {
         
         self.view.addSubview(gameCounterLabel)
         
-        gameCounterLabel.anchor(top: cancelButton.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 20))
+        gameCounterLabel.anchor(
+            top: cancelButton.bottomAnchor,
+            leading: safeArea.leadingAnchor,
+            bottom: nil,
+            trailing: safeArea.trailingAnchor,
+            padding: UIEdgeInsets(top: 12, left: 20, bottom: 0, right: 20)
+        )
         
         //MARK: config startGameButton
         self.view.addSubview(startGameButton)
         
-        startGameButton.layer.cornerRadius = startButtonHeight / 2
-        startGameButton.onOffButton(enable: dataHolder.count != 0)
-        startGameButton.anchor(top: nil, leading: safeArea.leadingAnchor, bottom: self.view.bottomAnchor, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 20, bottom: 65, right: 20), size: CGSize(width: 0, height: startButtonHeight))
-        startGameButton.addTarget(self, action: #selector(startGameButtonTapped), for: .touchUpInside)
-
+        startGameButton.anchor(
+            top: nil,
+            leading: safeArea.leadingAnchor,
+            bottom: self.view.bottomAnchor,
+            trailing: safeArea.trailingAnchor,
+            padding: UIEdgeInsets(top: 0, left: 20, bottom: 65, right: 20),
+            size: CGSize(width: 0, height: startButtonHeight)
+        )
+        
         //MARK: config tableView with players
         self.view.addSubview(playersTableView)
         
-        playersTableView.anchor(top: gameCounterLabel.bottomAnchor, leading: safeArea.leadingAnchor, bottom: nil, trailing: safeArea.trailingAnchor, padding: UIEdgeInsets(top: 25, left: 20, bottom: 0, right: 20))
+        playersTableView.anchor(
+            top: gameCounterLabel.bottomAnchor,
+            leading: safeArea.leadingAnchor,
+            bottom: nil,
+            trailing: safeArea.trailingAnchor,
+            padding: UIEdgeInsets(top: 25, left: 20, bottom: 0, right: 20)
+        )
         
         //MARK: tableViewHeight
-        tableViewHeightConstraint = playersTableView.heightAnchor.constraint(lessThanOrEqualToConstant: 120 + tableRowHeight * CGFloat(dataHolder.count))
+        tableViewHeightConstraint = playersTableView.heightAnchor
+            .constraint(lessThanOrEqualToConstant: 120 + tableRowHeight * CGFloat(dataHolder.count))
         tableViewHeightConstraint?.isActive = true
         
         let bottomConstraint = playersTableView .bottomAnchor.constraint(equalTo: startGameButton.topAnchor, constant: -25)
@@ -117,7 +149,7 @@ class NewGameVC: UIViewController {
 
 //MARK: UITableViewDelegate, UITableViewDataSource
 extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
-        
+    
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableRowHeight
     }
@@ -148,7 +180,9 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
         return cell
     }
     
-    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle, forRowAt indexPath: IndexPath) {
+    func tableView(_ tableView: UITableView, commit editingStyle: UITableViewCell.EditingStyle,
+                   forRowAt indexPath: IndexPath) {
+        
         switch editingStyle {
         case .delete:
             dataHolder.remove(at: indexPath.row)
@@ -158,7 +192,6 @@ extension NewGameVC: UITableViewDelegate, UITableViewDataSource{
             return
         }
     }
-  
 }
 
 //MARK: config headerView and footerView
@@ -170,7 +203,7 @@ extension NewGameVC{
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
         let headerView = UIView()
-        headerView.backgroundColor = UIColor(named: "elemBack")
+        headerView.backgroundColor = UIColor(named: "elementBackgroundColor")
         let playerLabel: UILabel = {
             let label = UILabel()
             label.text = "Players"
@@ -181,7 +214,12 @@ extension NewGameVC{
         }()
         headerView.addSubview(playerLabel)
         
-        playerLabel.anchor(top: headerView.topAnchor, leading: headerView.leadingAnchor, bottom: nil, trailing: headerView.trailingAnchor, padding: UIEdgeInsets(top: 16, left: 16, bottom: 0, right: -16))
+        playerLabel.anchor(
+            top: headerView.topAnchor,
+            leading: headerView.leadingAnchor,
+            bottom: nil,
+            trailing: headerView.trailingAnchor,
+            padding: UIEdgeInsets(top: 16, left: 16, bottom: 0, right: -16))
         
         return headerView
     }
@@ -193,27 +231,47 @@ extension NewGameVC{
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footerView = UIView()
-        footerView.backgroundColor = UIColor(named: "elemBack")
+        footerView.backgroundColor = UIColor(named: "elementBackgroundColor")
         
-        let addButton = UIButton(type: .system).createEllipseButton(title: "+", font: UIFont(name: "Nunito-ExtraBold", size: 16)!, radius: 10.5, shadow: false)
+        footerView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(addButtonTapped)))
         
-        addButton.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        let addButton = UIButton(type: .system).createEllipseButton(
+            title: "+",
+            font: UIFont(name: "Nunito-ExtraBold", size: 17)!,
+            radius: 11, shadow: false)
+        
+        addButton.isUserInteractionEnabled = false
         
         footerView.addSubview(addButton)
         
-        addButton.anchor(top: footerView.topAnchor, leading: footerView.leadingAnchor, bottom: footerView.bottomAnchor, trailing: nil, padding: UIEdgeInsets(top: 14, left: 22, bottom: 15, right: 0), size: CGSize(width: 21, height: 21))
+        addButton.anchor(
+            top: footerView.topAnchor,
+            leading: footerView.leadingAnchor,
+            bottom: footerView.bottomAnchor,
+            trailing: nil,
+            padding: UIEdgeInsets(top: 14, left: 22, bottom: 15, right: 0),
+            size: CGSize(width: 22, height: 0)
+        )
         
         let playerLabel: UILabel = {
             let label = UILabel()
             label.text = "Add player"
             label.font = UIFont(name: CustomFonts.nunitoSemiBold.rawValue, size: 16)
-            label.textColor = UIColor(named: "tintColor")
+            label.textColor = UIColor(named: "buttonColor")
             label.translatesAutoresizingMaskIntoConstraints = false
             return label
         }()
+        
         footerView.addSubview(playerLabel)
         
-        playerLabel.anchor(top: footerView.topAnchor, leading: addButton.trailingAnchor, bottom: footerView.bottomAnchor, trailing: footerView.trailingAnchor, padding: UIEdgeInsets(top: 14, left: 15, bottom: 15, right: -29))
+        playerLabel.anchor(
+            top: footerView.topAnchor,
+            leading: addButton.trailingAnchor,
+            bottom: footerView.bottomAnchor,
+            trailing: footerView.trailingAnchor,
+            padding: UIEdgeInsets(top: 14, left: 15, bottom: 15, right: -29)
+        )
+        
         return footerView
     }
 }
@@ -221,7 +279,7 @@ extension NewGameVC{
 //MARK: Target
 extension NewGameVC{
     
-    @objc func addButtonTapped(){
+    @objc func addButtonTapped() {
         let addPlayerVC = AddPlayerVC()
         addPlayerVC.delegate = self
         addPlayerVC.modalPresentationStyle = .pageSheet
@@ -229,7 +287,7 @@ extension NewGameVC{
     }
     
     @objc func startGameButtonTapped() {
-        let halpersClass = Halpers()
+        let halpersClass = UserDefaultsManager()
         
         settParamsForNewGame()
         halpersClass.saveDataInUserDefaults(valueForStartBackground: nil)
@@ -255,10 +313,9 @@ extension NewGameVC{
         }
     }
     
-    @objc func cancelButtonTapped(){
+    @objc func cancelButtonTapped() {
         dismiss(animated: true, completion: nil)
     }
-
 }
 
 //MARK: Halpers func
@@ -272,7 +329,7 @@ extension NewGameVC {
     private func configCell(cellForConfig: UITableViewCell) -> UITableViewCell{
         let cell = cellForConfig
         cell.selectionStyle = .none
-        cell.backgroundColor = UIColor(named: "elemBack")
+        cell.backgroundColor = UIColor(named: "elementBackgroundColor")
         
         cell.textLabel?.font = UIFont(name: CustomFonts.nunitoExtraBold.rawValue, size: 20)
         cell.textLabel?.textColor = .white
@@ -287,50 +344,30 @@ extension NewGameVC {
         ])
         
         let seporator = UIView(frame: CGRect(x: 0, y: 0, width: cell.frame.width - 16, height: 1))
-        seporator.backgroundColor = UIColor(named: "seporator")
+        seporator.backgroundColor = UIColor(named: "seporatorColor")
         seporator.translatesAutoresizingMaskIntoConstraints = false
         cell.addSubview(seporator)
         
-        seporator.anchor(top: nil, leading: cell.leadingAnchor, bottom: cell.bottomAnchor, trailing: cell.trailingAnchor, padding: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0), size: CGSize(width: 0, height: 1))
+        seporator.anchor(
+            top: nil,
+            leading: cell.leadingAnchor,
+            bottom: cell.bottomAnchor,
+            trailing: cell.trailingAnchor,
+            padding: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 0),
+            size: CGSize(width: 0, height: 1)
+        )
         
         return cell
     }
     
-    private func settParamsForNewGame(){
-        DataClass.sharedInstance().playersArray = dataHolder
-        DataClass.sharedInstance().gameTime = GameTime(minute: 0, second: 0)
-        DataClass.sharedInstance().turnsArray = [Turn]()
-        DataClass.sharedInstance().timerPlay = true
+    private func settParamsForNewGame() {
+        dataShared.playersArray = dataHolder
+        dataShared.gameTime = GameTime(minute: 0, second: 0)
+        dataShared.turnsArray = [Turn]()
+        dataShared.timerPlay = true
         
-        for i in 0..<DataClass.sharedInstance().playersArray.count{
-            DataClass.sharedInstance().playersArray[i].score = 0
-            DataClass.sharedInstance().playersArray[i].position = 0
+        for i in 0..<dataShared.playersArray.count{
+            dataShared.playersArray[i].score = 0
         }
     }
 }
-
-
-////MARK: SwiftUI
-////Импортируем SwiftUI библиотеку
-//import SwiftUI
-////создаем структуру
-//struct PeopleVСProvider: PreviewProvider {
-//    @available(iOS 13.0.0, *)
-//    static var previews: some View {
-//        ContainerView().edgesIgnoringSafeArea(.all)
-//    }
-//    
-//    @available(iOS 13.0, *)
-//    struct ContainerView: UIViewControllerRepresentable {
-//        //создадим объект класса, который хотим показывать в Canvas
-//        let tabBarVC = NewGameVC()
-//        //меняем input параметры в соответствии с образцом
-//        @available(iOS 13.0, *)
-//        func makeUIViewController(context: UIViewControllerRepresentableContext<PeopleVСProvider.ContainerView>) -> NewGameVC {
-//            return tabBarVC
-//        }
-//        //не пишем никакого кода
-//        func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-//        }
-//    }
-//}
